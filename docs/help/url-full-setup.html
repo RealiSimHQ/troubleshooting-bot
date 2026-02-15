@@ -131,8 +131,9 @@ code { background: #1a1b2e; padding: 2px 6px; border-radius: 4px; font-size: 0.9
 <div class="section">
 <p>Open a terminal (<b>Ctrl+Alt+T</b>) and run these one at a time:</p>
 
-<h3>1. Update your system first</h3>
+<h3>1. Update your system and install essentials</h3>
 <pre onclick="copyCmd(this)">sudo apt update && sudo apt upgrade -y</pre>
+<pre onclick="copyCmd(this)">sudo apt install -y curl git</pre>
 
 <h3>2. Install Node.js (OpenClaw needs it)</h3>
 <pre onclick="copyCmd(this)">curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -</pre>
@@ -142,10 +143,7 @@ code { background: #1a1b2e; padding: 2px 6px; border-radius: 4px; font-size: 0.9
 <pre onclick="copyCmd(this)">node --version</pre>
 <div class="note">Should show v22.x.x or higher. If it shows an old version, something went wrong — ask Ryan.</div>
 
-<h3>3. Install Git</h3>
-<pre onclick="copyCmd(this)">sudo apt install -y git</pre>
-
-<h3>4. Install OpenClaw</h3>
+<h3>3. Install OpenClaw</h3>
 <pre onclick="copyCmd(this)">npm install -g openclaw</pre>
 
 <p>Verify it installed:</p>
