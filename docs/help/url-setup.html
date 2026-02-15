@@ -10,7 +10,7 @@ h1 { color: #00ffff; border-bottom: 2px solid #00ffff33; padding-bottom: 10px; }
 h2 { color: #ff6b6b; margin-top: 30px; }
 h3 { color: #ffaa00; margin-top: 20px; }
 hr { border: none; border-top: 1px solid #333; margin: 25px 0; }
-pre { background: #1a1b2e; border: 1px solid #00ffff33; border-radius: 8px; padding: 14px 18px; font-family: 'Cascadia Code', 'Fira Code', monospace; font-size: 1.05em; color: #00ffff; cursor: pointer; position: relative; margin: 10px 0; overflow-x: auto; }
+pre { background: #1a1b2e; border: 1px solid #00ffff33; border-radius: 8px; padding: 14px 18px; font-family: 'Cascadia Code', 'Fira Code', monospace; font-size: 1.05em; color: #00ffff; cursor: pointer; position: relative; margin: 10px 0; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word; }
 pre:hover { border-color: #00ffff; }
 pre::after { content: '📋 click to copy'; position: absolute; top: 8px; right: 12px; font-size: 0.7em; color: #666; font-family: 'Segoe UI', sans-serif; }
 pre.copied::after { content: '✅ copied!'; color: #00ff88; }
@@ -21,16 +21,23 @@ ul, ol { padding-left: 20px; }
 .back-link { display: inline-block; margin-bottom: 20px; color: #00e5ff; text-decoration: none; font-size: 0.9em; }
 .back-link:hover { text-decoration: underline; }
 .footer { color: #555; font-style: italic; margin-top: 40px; }
+.section { background: #12131a; border: 1px solid #1a1a35; border-radius: 12px; padding: 20px; margin: 20px 0; }
+.section-label { color: #00e5ff; font-size: 0.75em; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
+.note { background: #ffaa0015; border-left: 3px solid #ffaa00; padding: 10px 14px; border-radius: 0 8px 8px 0; margin: 10px 0; font-size: 0.9em; }
+.next-step { display: block; margin: 30px 0; padding: 16px 24px; background: #00e5ff15; border: 2px solid #00e5ff44; border-radius: 10px; color: #00e5ff; text-decoration: none; text-align: center; font-size: 1.1em; font-weight: 700; transition: all 0.2s; }
+.next-step:hover { background: #00e5ff25; border-color: #00e5ff; }
 </style>
 </head>
 <body>
 
 <a class="back-link" href="url.html">← Back to Troubleshooting</a>
 
-<h1>🛡️ First-Time Setup — Security & Optimization</h1>
-<p>You just got OpenClaw running. Now lock it down and make it run right.</p>
+<h1>🛡️ OpenClaw Setup — Security, Optimization & Integrations</h1>
+<p>You just got OpenClaw running. Now lock it down, save tokens, and connect your services.</p>
 
-<hr>
+<!-- ============================================ -->
+<div class="section">
+<div class="section-label">🔒 Security</div>
 
 <h3>1. Update your system</h3>
 <pre onclick="copyCmd(this)">sudo apt update && sudo apt upgrade -y</pre>
@@ -42,10 +49,10 @@ ul, ol { padding-left: 20px; }
 <pre onclick="copyCmd(this)">sudo ufw allow ssh</pre>
 
 <h3>3. Only allow the gateway on your local network</h3>
-<p>Replace <b>192.168.x.0/24</b> with your actual LAN subnet:</p>
+<div class="note">Replace <b>192.168.x.0/24</b> with your actual LAN subnet.</div>
 <pre onclick="copyCmd(this)">sudo ufw allow from 192.168.1.0/24 to any port 18789</pre>
 
-<h3>4. Harden SSH (if you use it)</h3>
+<h3>4. Harden SSH</h3>
 <pre onclick="copyCmd(this)">sudo sed -i 's/#PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config</pre>
 <pre onclick="copyCmd(this)">sudo systemctl restart sshd</pre>
 
@@ -56,12 +63,93 @@ ul, ol { padding-left: 20px; }
 
 <h3>6. Set your timezone</h3>
 <pre onclick="copyCmd(this)">sudo timedatectl set-timezone America/New_York</pre>
-<p>Change <b>America/New_York</b> to your timezone if different.</p>
+<div class="note">Change <b>America/New_York</b> to your timezone if different.</div>
+</div>
 
-<h3>7. Check OpenClaw is running properly</h3>
+<!-- ============================================ -->
+<div class="section">
+<div class="section-label">⚡ Token Saving & Memory Optimization</div>
+
+<h3>7. Enable prompt caching</h3>
+<p>This saves massive tokens on repeated context. Open your config:</p>
+<pre onclick="copyCmd(this)">openclaw config edit</pre>
+<p>Make sure you have prompt caching enabled in your provider settings. For Anthropic:</p>
+<pre onclick="copyCmd(this)">"promptCaching": true</pre>
+
+<h3>8. Set up context compression</h3>
+<p>Keeps your context window from blowing up. In your gateway config, enable compaction:</p>
+<pre onclick="copyCmd(this)">"compaction": { "enabled": true }</pre>
+<div class="note">This automatically summarizes old conversation when context gets large, saving tokens on every message.</div>
+
+<h3>9. Use memory files instead of relying on context</h3>
+<p>Create a workspace with memory files so your agent persists knowledge across sessions without burning context tokens:</p>
+<pre onclick="copyCmd(this)">mkdir -p ~/.openclaw/workspace/memory</pre>
+<p>Key files to create:</p>
+<ul>
+<li><b>MEMORY.md</b> — long-term curated knowledge</li>
+<li><b>memory/YYYY-MM-DD.md</b> — daily notes (raw logs)</li>
+<li><b>USER.md</b> — info about you</li>
+<li><b>IDENTITY.md</b> — who your agent is</li>
+<li><b>SOUL.md</b> — personality & behavior rules</li>
+<li><b>TOOLS.md</b> — local tool notes & configs</li>
+</ul>
+<div class="note">These files get loaded as project context instead of filling up your chat history. Much cheaper than re-explaining things every session.</div>
+
+<h3>10. Set a default model to control costs</h3>
+<p>In your gateway config, set a default model. Sonnet is cheapest for daily use, Opus for heavy lifting:</p>
+<pre onclick="copyCmd(this)">"defaultModel": "anthropic/claude-sonnet-4-20250514"</pre>
+<div class="note">You can always override per-session with <b>/model</b> command when you need more power.</div>
+</div>
+
+<!-- ============================================ -->
+<div class="section">
+<div class="section-label">🔑 API Keys & Permissions</div>
+
+<h3>11. Set up your Anthropic API key</h3>
+<p>Get your key from <a href="https://console.anthropic.com/settings/keys" style="color:#00e5ff">console.anthropic.com</a></p>
+<p>Add it to your gateway config:</p>
+<pre onclick="copyCmd(this)">"anthropicApiKey": "sk-ant-your-key-here"</pre>
+
+<h3>12. Give your agent tool access</h3>
+<p>In your config, make sure these are enabled for full functionality:</p>
+<ul>
+<li><b>exec</b> — run shell commands</li>
+<li><b>read/write/edit</b> — file access</li>
+<li><b>web_search / web_fetch</b> — internet access</li>
+<li><b>browser</b> — browser automation (optional)</li>
+<li><b>cron</b> — scheduled tasks & reminders</li>
+<li><b>message</b> — send messages to channels</li>
+</ul>
+<div class="note">Start conservative. Add permissions as you need them. You can always expand later.</div>
+
+<h3>13. Connect a messaging channel (optional)</h3>
+<p>To talk to your agent via Telegram:</p>
+<ol>
+<li>Message <b>@BotFather</b> on Telegram → create a new bot → get the token</li>
+<li>Add the token to your gateway config under the Telegram channel section</li>
+<li>Restart the gateway</li>
+</ol>
+</div>
+
+<!-- ============================================ -->
+<div class="section">
+<div class="section-label">✅ Verify Everything Works</div>
+
+<h3>14. Check OpenClaw status</h3>
 <pre onclick="copyCmd(this)">openclaw status</pre>
 
+<h3>15. Test from the dashboard</h3>
+<p>Open in your browser:</p>
+<pre onclick="copyCmd(this)">http://127.0.0.1:18789</pre>
+<p>Try sending a message in the chat. If it responds, you're golden.</p>
+
 <p><b>⚠️ If anything errors out, screenshot it and send to Ryan.</b></p>
+</div>
+
+<!-- ============================================ -->
+<hr>
+
+<a class="next-step" href="#">🔗 Next: Set up Google Drive / GitHub / YouTube (coming soon)</a>
 
 <hr>
 <p class="footer">This page only grows — new upgrades get added here over time.<br>Last updated: Feb 15, 2026 — Paddy 🐘</p>
