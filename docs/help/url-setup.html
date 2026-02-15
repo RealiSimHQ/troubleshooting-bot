@@ -95,10 +95,15 @@ ul, ol { padding-left: 20px; }
 </ul>
 <div class="note">These files get loaded as project context instead of filling up your chat history. Much cheaper than re-explaining things every session.</div>
 
-<h3>10. Set a default model to control costs</h3>
-<p>In your gateway config, set a default model. Sonnet is cheapest for daily use, Opus for heavy lifting:</p>
-<pre onclick="copyCmd(this)">"defaultModel": "anthropic/claude-sonnet-4-20250514"</pre>
-<div class="note">You can always override per-session with <b>/model</b> command when you need more power.</div>
+<h3>10. Set a default model</h3>
+<p>If you're running <b>Ollama</b> (local models, no API costs):</p>
+<pre onclick="copyCmd(this)">"defaultModel": "ollama/llama3.1"</pre>
+<p>Check what models you have installed:</p>
+<pre onclick="copyCmd(this)">ollama list</pre>
+<p>Pull a good general-purpose model if you don't have one:</p>
+<pre onclick="copyCmd(this)">ollama pull llama3.1</pre>
+<div class="note">Ollama runs 100% local — no API keys needed, no costs. Performance depends on your hardware (GPU/RAM). Bigger models = smarter but slower.</div>
+<p>If you switch to a paid API later (Anthropic, OpenAI, etc.), you can change this anytime.</p>
 </div>
 
 <!-- ============================================ -->
