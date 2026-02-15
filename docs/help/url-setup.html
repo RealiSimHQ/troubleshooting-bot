@@ -124,16 +124,49 @@ ul, ol { padding-left: 20px; }
 <p>If you ever want to use a cloud model (Anthropic, OpenAI, etc.), you'd add the key to your gateway config at that point. For now, Ollama is all you need.</p>
 
 <h3>13. Give your agent tool access</h3>
-<p>In your config, make sure these are enabled for full functionality:</p>
+<div class="note">⚠️ These give your bot real power on your machine. Read what each one does before enabling. Start with only what you need — you can always add more later.</div>
+<p>Open your config:</p>
+<pre onclick="copyCmd(this)">openclaw config edit</pre>
+<p>Tools are managed in the config file. Here's what each one does and how to enable it:</p>
+
+<h4 style="color:#ff6b6b; margin-top:18px;">🖥️ exec — Run shell commands</h4>
+<p><b>What it does:</b> Lets the bot run terminal commands on your machine — install packages, run scripts, manage files, anything you can do in a terminal.</p>
+<p><b>⚠️ Risk:</b> HIGH. This is full terminal access. The bot can run any command as your user.</p>
+<p><b>How to control it:</b> In your config under the agent section, exec has a security mode:</p>
 <ul>
-<li><b>exec</b> — run shell commands</li>
-<li><b>read/write/edit</b> — file access</li>
-<li><b>web_search / web_fetch</b> — internet access</li>
-<li><b>browser</b> — browser automation (optional)</li>
-<li><b>cron</b> — scheduled tasks & reminders</li>
-<li><b>message</b> — send messages to channels</li>
+<li><code>"full"</code> — bot can run anything (what Ryan uses)</li>
+<li><code>"allowlist"</code> — bot can only run pre-approved commands</li>
+<li><code>"deny"</code> — bot cannot run any commands</li>
 </ul>
-<div class="note">Start conservative. Add permissions as you need them. You can always expand later.</div>
+
+<h4 style="color:#ff6b6b; margin-top:18px;">📁 read / write / edit — File access</h4>
+<p><b>What it does:</b> Lets the bot read, create, and modify files on your machine.</p>
+<p><b>⚠️ Risk:</b> MEDIUM. The bot can read/write files in its workspace by default. It needs this for memory files, notes, and projects.</p>
+<p><b>Note:</b> These are typically enabled by default within the workspace directory (<code>~/.openclaw/workspace/</code>).</p>
+
+<h4 style="color:#ff6b6b; margin-top:18px;">🌐 web_search / web_fetch — Internet access</h4>
+<p><b>What it does:</b> Lets the bot search the web and fetch content from URLs. Used for research, checking docs, pulling info.</p>
+<p><b>⚠️ Risk:</b> LOW. Read-only internet access. Bot can look things up but can't post or sign into anything.</p>
+
+<h4 style="color:#ff6b6b; margin-top:18px;">🌍 browser — Browser automation</h4>
+<p><b>What it does:</b> Lets the bot control a web browser — click buttons, fill forms, take screenshots, navigate sites.</p>
+<p><b>⚠️ Risk:</b> MEDIUM-HIGH. The bot can interact with websites as if it were you. Only enable if you need it.</p>
+
+<h4 style="color:#ff6b6b; margin-top:18px;">⏰ cron — Scheduled tasks & reminders</h4>
+<p><b>What it does:</b> Lets the bot set up recurring tasks — reminders, daily checks, automated routines on a schedule.</p>
+<p><b>⚠️ Risk:</b> LOW. It just triggers messages/tasks at set times. Useful for morning briefings, reminders, etc.</p>
+
+<h4 style="color:#ff6b6b; margin-top:18px;">💬 message — Send messages to channels</h4>
+<p><b>What it does:</b> Lets the bot proactively send messages to your Telegram/Discord/etc. without you asking first.</p>
+<p><b>⚠️ Risk:</b> MEDIUM. Bot can message you (or groups) on its own. Good for alerts and reminders. Make sure <code>allowFrom</code> in your channel config only includes YOUR user ID so strangers can't talk to your bot.</p>
+<p><b>How to lock it down:</b> In your Telegram channel config:</p>
+<pre onclick="copyCmd(this)">"dmPolicy": "allowlist",
+"allowFrom": ["YOUR_TELEGRAM_USER_ID"]</pre>
+<div class="note">To find your Telegram user ID: message <b>@userinfobot</b> on Telegram and it'll tell you.</div>
+
+<h4 style="color:#ff6b6b; margin-top:18px;">🔧 Recommended starter config</h4>
+<p>For a basic setup with Ollama, you want file access + web + cron + message. Skip exec and browser until you need them:</p>
+<div class="note">Most of these are enabled by default after running the setup wizard (<code>openclaw onboard</code>). Check your config to verify what's on.</div>
 
 <h3>14. Connect a messaging channel (optional)</h3>
 <p>To talk to your agent via Telegram:</p>
