@@ -119,10 +119,9 @@ ul, ol { padding-left: 20px; }
 </ul>
 <p>Then share specific folders/repos from your personal accounts TO the bot's accounts as needed. Bot gets access, you stay in control.</p>
 
-<h3>12. Set up your Anthropic API key</h3>
-<p>Get your key from <a href="https://console.anthropic.com/settings/keys" style="color:#00e5ff">console.anthropic.com</a></p>
-<p>Add it to your gateway config:</p>
-<pre onclick="copyCmd(this)">"anthropicApiKey": "sk-ant-your-key-here"</pre>
+<h3>12. API keys (only if using paid models)</h3>
+<div class="note">If you're running <b>Ollama only</b>, skip this — you don't need any API keys. Ollama is fully local.</div>
+<p>If you ever want to use a cloud model (Anthropic, OpenAI, etc.), you'd add the key to your gateway config at that point. For now, Ollama is all you need.</p>
 
 <h3>13. Give your agent tool access</h3>
 <p>In your config, make sure these are enabled for full functionality:</p>
