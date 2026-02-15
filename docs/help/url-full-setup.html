@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenClaw Full Setup — From Zero to Running</title>
+<style>
+body { background: #0a0a0f; color: #e0e0e0; font-family: 'Segoe UI', system-ui, sans-serif; max-width: 750px; margin: 40px auto; padding: 0 20px; line-height: 1.6; }
+h1 { color: #00ffff; border-bottom: 2px solid #00ffff33; padding-bottom: 10px; }
+h2 { color: #ff6b6b; margin-top: 40px; border-bottom: 1px solid #ff6b6b33; padding-bottom: 8px; }
+h3 { color: #ffaa00; margin-top: 20px; }
+h4 { color: #00e5ff; margin-top: 16px; }
+hr { border: none; border-top: 1px solid #333; margin: 25px 0; }
+pre { background: #1a1b2e; border: 1px solid #00ffff33; border-radius: 8px; padding: 14px 18px; font-family: 'Cascadia Code', 'Fira Code', monospace; font-size: 1.05em; color: #00ffff; cursor: pointer; position: relative; margin: 10px 0; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word; }
+pre:hover { border-color: #00ffff; }
+pre::after { content: '📋 click to copy'; position: absolute; top: 8px; right: 12px; font-size: 0.7em; color: #666; font-family: 'Segoe UI', sans-serif; }
+pre.copied::after { content: '✅ copied!'; color: #00ff88; }
+p { margin: 10px 0; }
+b { color: #ffaa00; }
+li { margin: 6px 0; }
+ul, ol { padding-left: 20px; }
+.back-link { display: inline-block; margin-bottom: 20px; color: #00e5ff; text-decoration: none; font-size: 0.9em; }
+.back-link:hover { text-decoration: underline; }
+.footer { color: #555; font-style: italic; margin-top: 40px; }
+.section { background: #12131a; border: 1px solid #1a1a35; border-radius: 12px; padding: 20px; margin: 20px 0; }
+.section-label { color: #00e5ff; font-size: 0.75em; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
+.note { background: #ffaa0015; border-left: 3px solid #ffaa00; padding: 10px 14px; border-radius: 0 8px 8px 0; margin: 10px 0; font-size: 0.9em; }
+.good { background: #00ff8815; border-left: 3px solid #00ff88; padding: 10px 14px; border-radius: 0 8px 8px 0; margin: 10px 0; font-size: 0.9em; }
+.warn { background: #ff444415; border-left: 3px solid #ff4444; padding: 10px 14px; border-radius: 0 8px 8px 0; margin: 10px 0; font-size: 0.9em; }
+.step-num { display: inline-block; background: #00e5ff22; color: #00e5ff; border: 1px solid #00e5ff44; border-radius: 50%; width: 28px; height: 28px; text-align: center; line-height: 28px; font-weight: 700; font-size: 0.85em; margin-right: 8px; }
+code { background: #1a1b2e; padding: 2px 6px; border-radius: 4px; font-size: 0.95em; color: #00ffff; }
+.toc { background: #12131a; border: 1px solid #1a1a35; border-radius: 12px; padding: 20px; margin: 20px 0; }
+.toc a { color: #00e5ff; text-decoration: none; display: block; padding: 4px 0; }
+.toc a:hover { color: #00ffff; text-decoration: underline; }
+.phase { color: #ff6b6b; font-size: 0.7em; text-transform: uppercase; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+
+<a class="back-link" href="url.html">← Back to Troubleshooting</a>
+
+<h1>🚀 OpenClaw — Complete Setup Guide</h1>
+<p>From a blank computer to a fully running AI agent. Every step, in order.</p>
+
+<div class="toc">
+<b style="color:#00ffff;">Table of Contents</b>
+<a href="#phase1">Phase 1 — Install Linux</a>
+<a href="#phase2">Phase 2 — Create Bot Accounts</a>
+<a href="#phase3">Phase 3 — Install OpenClaw</a>
+<a href="#phase4">Phase 4 — Connect Your AI Brain (Anthropic API)</a>
+<a href="#phase5">Phase 5 — Run the Setup Wizard</a>
+<a href="#phase6">Phase 6 — Security Hardening</a>
+<a href="#phase7">Phase 7 — Token Saving & Memory Optimization</a>
+<a href="#phase8">Phase 8 — Permissions & Tool Access</a>
+<a href="#phase9">Phase 9 — Connect Telegram</a>
+<a href="#phase10">Phase 10 — Final Checks</a>
+</div>
+
+<!-- ============================================ -->
+<h2 id="phase1"><span class="phase">Phase 1</span><br>Install Linux</h2>
+
+<div class="section">
+<p>If you're already on Linux, skip to Phase 2.</p>
+
+<h3>Option A: Ubuntu Desktop (Recommended for beginners)</h3>
+<ol>
+<li>Download Ubuntu Desktop from <a href="https://ubuntu.com/download/desktop" style="color:#00e5ff">ubuntu.com/download/desktop</a></li>
+<li>Create a bootable USB with <a href="https://rufus.ie" style="color:#00e5ff">Rufus</a> (Windows) or <a href="https://etcher.balena.io" style="color:#00e5ff">Balena Etcher</a></li>
+<li>Boot from USB (usually F12 or F2 at startup to pick boot device)</li>
+<li>Choose "Install Ubuntu" — use the guided installer</li>
+<li>When asked about disk: "Erase disk and install Ubuntu" (if replacing Windows entirely)</li>
+<li>Set your username and password — <b>remember these, you'll need them constantly</b></li>
+<li>Reboot when done, remove USB</li>
+</ol>
+
+<h3>Option B: Linux Mint (Even easier, more Windows-like)</h3>
+<ol>
+<li>Download from <a href="https://linuxmint.com/download.php" style="color:#00e5ff">linuxmint.com</a> — pick Cinnamon edition</li>
+<li>Same USB creation + boot process as above</li>
+</ol>
+
+<div class="good">✅ Once you're at a desktop and can open a terminal (Ctrl+Alt+T), you're ready for Phase 2.</div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="phase2"><span class="phase">Phase 2</span><br>Create Bot Accounts</h2>
+
+<div class="section">
+<div class="warn">⚠️ <b>Do this BEFORE installing anything.</b> Your bot gets its OWN accounts. Never use your personal ones.</div>
+
+<h3>1. Create a new Google account for your bot</h3>
+<ol>
+<li>Go to <a href="https://accounts.google.com/signup" style="color:#00e5ff">accounts.google.com/signup</a></li>
+<li>Pick a name like <code>yourbot.name@gmail.com</code></li>
+<li>This will be used for: Google Drive, YouTube, Gmail (later)</li>
+<li><b>Write down the email and password somewhere safe</b></li>
+</ol>
+
+<h3>2. Create a new GitHub account for your bot</h3>
+<ol>
+<li>Go to <a href="https://github.com/signup" style="color:#00e5ff">github.com/signup</a></li>
+<li>Use the bot's Gmail address</li>
+<li>Pick a username for your bot</li>
+<li>This will be used for: repos, GitHub Pages, automation</li>
+</ol>
+
+<h3>3. Create an Anthropic account (for the API)</h3>
+<ol>
+<li>Go to <a href="https://console.anthropic.com/" style="color:#00e5ff">console.anthropic.com</a></li>
+<li>Sign up with the <b>bot's Gmail address</b></li>
+<li>You'll add payment and get your API key in Phase 4</li>
+</ol>
+
+<h3>4. Create a Telegram bot</h3>
+<ol>
+<li>Open Telegram on your phone</li>
+<li>Search for <b>@BotFather</b> and start a chat</li>
+<li>Send: <code>/newbot</code></li>
+<li>Give it a display name (e.g. "My Bot")</li>
+<li>Give it a username (e.g. <code>mybot_ai_bot</code> — must end in "bot")</li>
+<li>BotFather gives you a <b>token</b> — looks like <code>7123456789:AAH...</code></li>
+<li><b>Save this token. You'll need it in Phase 9.</b></li>
+</ol>
+
+<div class="good">✅ You should now have: bot Gmail, bot GitHub, Anthropic account, Telegram bot token. All separate from your personal stuff.</div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="phase3"><span class="phase">Phase 3</span><br>Install OpenClaw</h2>
+
+<div class="section">
+<p>Open a terminal (<b>Ctrl+Alt+T</b>) and run these one at a time:</p>
+
+<h3>1. Update your system first</h3>
+<pre onclick="copyCmd(this)">sudo apt update && sudo apt upgrade -y</pre>
+
+<h3>2. Install Node.js (OpenClaw needs it)</h3>
+<pre onclick="copyCmd(this)">curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -</pre>
+<pre onclick="copyCmd(this)">sudo apt install -y nodejs</pre>
+
+<p>Verify it worked:</p>
+<pre onclick="copyCmd(this)">node --version</pre>
+<div class="note">Should show v22.x.x or higher. If it shows an old version, something went wrong — ask Ryan.</div>
+
+<h3>3. Install Git</h3>
+<pre onclick="copyCmd(this)">sudo apt install -y git</pre>
+
+<h3>4. Install OpenClaw</h3>
+<pre onclick="copyCmd(this)">npm install -g openclaw</pre>
+
+<p>Verify it installed:</p>
+<pre onclick="copyCmd(this)">openclaw help</pre>
+
+<div class="good">✅ If you see OpenClaw's help text with commands listed, it's installed. If you get "command not found", try: <code>sudo npm install -g openclaw</code></div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="phase4"><span class="phase">Phase 4</span><br>Connect Your AI Brain (Anthropic API)</h2>
+
+<div class="section">
+<h3>1. Add a payment method</h3>
+<ol>
+<li>Go to <a href="https://console.anthropic.com/settings/billing" style="color:#00e5ff">console.anthropic.com/settings/billing</a></li>
+<li>Add your credit/debit card</li>
+<li>Add <b>$50</b> in credits (your first two-week budget)</li>
+</ol>
+
+<h3>2. Set a hard spending limit</h3>
+<div class="warn">⚠️ <b>DO THIS NOW.</b> This is your #1 safety net against surprise bills.</div>
+<ol>
+<li>Go to <a href="https://console.anthropic.com/settings/limits" style="color:#00e5ff">console.anthropic.com/settings/limits</a></li>
+<li>Set <b>"Monthly spend limit"</b> to <b>$100</b> (or $50 if you want to be extra safe)</li>
+<li>The API will literally stop working when you hit this cap. No surprises.</li>
+</ol>
+
+<h3>3. Create an API key</h3>
+<ol>
+<li>Go to <a href="https://console.anthropic.com/settings/keys" style="color:#00e5ff">console.anthropic.com/settings/keys</a></li>
+<li>Click <b>"Create Key"</b></li>
+<li>Name it something like "openclaw"</li>
+<li>Copy the key — it starts with <code>sk-ant-...</code></li>
+<li><b>Save it somewhere safe. You can't see it again after closing the page.</b></li>
+</ol>
+
+<div class="good">✅ You now have an API key with a spending cap. Your wallet is protected.</div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="phase5"><span class="phase">Phase 5</span><br>Run the Setup Wizard</h2>
+
+<div class="section">
+<h3>1. Run onboarding</h3>
+<pre onclick="copyCmd(this)">openclaw onboard</pre>
+
+<p>The wizard will walk you through:</p>
+<ul>
+<li><b>API provider</b> → Choose "Anthropic"</li>
+<li><b>API key</b> → Paste your <code>sk-ant-...</code> key</li>
+<li><b>Default model</b> → Pick <b>Claude Sonnet 4</b> (best value)</li>
+<li><b>Assistant name</b> → Name your bot whatever you want</li>
+<li><b>Workspace</b> → Accept the default (<code>~/.openclaw/workspace</code>)</li>
+</ul>
+
+<h3>2. Test it</h3>
+<pre onclick="copyCmd(this)">openclaw chat</pre>
+<p>Type something. If the bot responds, your API connection is working.</p>
+<p>Type <code>/exit</code> to leave the chat.</p>
+
+<div class="good">✅ Bot is alive and talking. Now let's secure and optimize it.</div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="phase6"><span class="phase">Phase 6</span><br>Security Hardening</h2>
+
+<div class="section">
+<div class="note">Your bot runs on your machine. Lock it down so nothing from outside can reach it.</div>
+
+<h3>1. Enable the firewall</h3>
+<pre onclick="copyCmd(this)">sudo ufw enable</pre>
+<pre onclick="copyCmd(this)">sudo ufw default deny incoming</pre>
+<pre onclick="copyCmd(this)">sudo ufw default allow outgoing</pre>
+<pre onclick="copyCmd(this)">sudo ufw allow ssh</pre>
+
+<h3>2. Only allow the gateway on your local network</h3>
+<div class="note">Replace <b>192.168.x.0/24</b> with your actual LAN subnet. If your IP is 192.168.1.50, your subnet is 192.168.1.0/24.</div>
+<pre onclick="copyCmd(this)">sudo ufw allow from 192.168.1.0/24 to any port 18789</pre>
+
+<p>Check your IP to figure out your subnet:</p>
+<pre onclick="copyCmd(this)">hostname -I</pre>
+
+<h3>3. Harden SSH</h3>
+<pre onclick="copyCmd(this)">sudo sed -i 's/#PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config</pre>
+<pre onclick="copyCmd(this)">sudo systemctl restart sshd</pre>
+
+<h3>4. Enable automatic security updates</h3>
+<pre onclick="copyCmd(this)">sudo apt install -y unattended-upgrades</pre>
+<pre onclick="copyCmd(this)">sudo dpkg-reconfigure -plow unattended-upgrades</pre>
+<p>Select <b>Yes</b> when prompted.</p>
+
+<h3>5. Set your timezone</h3>
+<pre onclick="copyCmd(this)">sudo timedatectl set-timezone America/New_York</pre>
+<div class="note">Change to your timezone if different. List all: <code>timedatectl list-timezones</code></div>
+
+<div class="good">✅ Machine is locked down. Firewall up, SSH hardened, auto-updates on.</div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="phase7"><span class="phase">Phase 7</span><br>Token Saving & Memory Optimization</h2>
+
+<div class="section">
+<div class="note">This is the difference between burning through $100 in a week vs making it last the whole month.</div>
+
+<h3>1. Open your config</h3>
+<pre onclick="copyCmd(this)">openclaw config edit</pre>
+
+<h3>2. Make sure these are in your config</h3>
+<p>Find the <code>"agents"</code> section and make sure it includes:</p>
+
+<h4>Default model (Sonnet = best value)</h4>
+<p>Under <code>agents.defaults.model</code>:</p>
+<pre onclick="copyCmd(this)">"model": {
+  "primary": "anthropic/claude-sonnet-4-20250514"
+}</pre>
+
+<h4>Compaction (auto-summarizes old conversation)</h4>
+<p>Under <code>agents.defaults</code>:</p>
+<pre onclick="copyCmd(this)">"compaction": {
+  "mode": "safeguard",
+  "memoryFlush": {
+    "enabled": true
+  }
+}</pre>
+<div class="note">This is crucial. Without compaction, every message resends your ENTIRE conversation history. With it, old messages get summarized, saving massive tokens.</div>
+
+<h4>Memory search (persistent knowledge across sessions)</h4>
+<pre onclick="copyCmd(this)">"memorySearch": {
+  "enabled": true,
+  "sources": ["memory", "sessions"]
+}</pre>
+
+<h3>3. Create your workspace memory structure</h3>
+<pre onclick="copyCmd(this)">mkdir -p ~/.openclaw/workspace/memory</pre>
+
+<p>Your bot will use these files to remember things across sessions:</p>
+<ul>
+<li><b>MEMORY.md</b> — long-term curated knowledge (the bot writes this)</li>
+<li><b>memory/YYYY-MM-DD.md</b> — daily notes</li>
+<li><b>USER.md</b> — info about you (so it doesn't ask every session)</li>
+<li><b>IDENTITY.md</b> — who your bot is (name, personality)</li>
+<li><b>SOUL.md</b> — behavior rules and personality</li>
+<li><b>TOOLS.md</b> — local tool notes and configs</li>
+</ul>
+<div class="note">These files load as project context — way cheaper than re-explaining things in chat. The bot reads them on startup instead of you burning tokens repeating yourself.</div>
+
+<h3>4. Create a basic USER.md to start</h3>
+<pre onclick="copyCmd(this)">cat > ~/.openclaw/workspace/USER.md << 'EOF'
+# About Me
+- Name: (your name)
+- Timezone: America/New_York
+- Interests: (whatever you want)
+EOF</pre>
+<div class="note">Edit this file to add more about yourself. The more your bot knows from the file, the less you have to explain in chat (saving tokens).</div>
+
+<h3>5. Token-saving habits</h3>
+<ul>
+<li><b>Start fresh conversations often</b> — use <code>/new</code> when switching topics. Long conversations cost more per message because the whole history gets resent.</li>
+<li><b>Be specific</b> — "fix the bug on line 42" costs less than "something is wrong with my code, can you look at everything"</li>
+<li><b>Let the bot use files</b> — instead of pasting huge text blocks in chat, save to a file and tell the bot to read it</li>
+</ul>
+
+<div class="good">✅ Token optimization done. Your $100/month will stretch way further now.</div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="phase8"><span class="phase">Phase 8</span><br>Permissions & Tool Access</h2>
+
+<div class="section">
+<div class="warn">⚠️ These give your bot real power on your machine. Read what each one does. Start with only what you need.</div>
+
+<p>Open your config:</p>
+<pre onclick="copyCmd(this)">openclaw config edit</pre>
+
+<h3>Understanding the tools</h3>
+
+<h4>🖥️ exec — Run shell commands</h4>
+<p><b>What:</b> Lets the bot run terminal commands — install packages, run scripts, manage files.</p>
+<p><b>Risk: HIGH.</b> Full terminal access as your user.</p>
+<p><b>Modes:</b></p>
+<ul>
+<li><code>"full"</code> — bot can run anything</li>
+<li><code>"allowlist"</code> — only pre-approved commands</li>
+<li><code>"deny"</code> — no commands at all</li>
+</ul>
+<div class="note">Start with <code>"allowlist"</code> or <code>"deny"</code> until you trust your setup. You can always open it up later.</div>
+
+<h4>📁 read / write / edit — File access</h4>
+<p><b>What:</b> Read, create, and modify files in the workspace.</p>
+<p><b>Risk: LOW-MEDIUM.</b> Limited to workspace by default (<code>~/.openclaw/workspace/</code>).</p>
+<p><b>Needed for:</b> Memory files, notes, projects. You want this on.</p>
+
+<h4>🌐 web_search / web_fetch — Internet access</h4>
+<p><b>What:</b> Search the web and fetch content from URLs.</p>
+<p><b>Risk: LOW.</b> Read-only. Can look things up, can't post or log in anywhere.</p>
+<p><b>Needed for:</b> Research, checking docs, pulling info.</p>
+
+<h4>🌍 browser — Browser automation</h4>
+<p><b>What:</b> Control a web browser — click, type, navigate, screenshot.</p>
+<p><b>Risk: MEDIUM-HIGH.</b> Can interact with websites. Only enable if you need it.</p>
+<p><b>Skip this for now</b> unless you have a specific use case.</p>
+
+<h4>⏰ cron — Scheduled tasks & reminders</h4>
+<p><b>What:</b> Set up recurring tasks — reminders, daily checks, automated routines.</p>
+<p><b>Risk: LOW.</b> Just triggers messages/tasks on a schedule.</p>
+<p><b>Needed for:</b> Morning briefings, reminders, routine checks. Nice to have.</p>
+
+<h4>💬 message — Send messages to channels</h4>
+<p><b>What:</b> Bot can proactively send messages to Telegram without you asking first.</p>
+<p><b>Risk: MEDIUM.</b> Bot can message you (or groups) on its own.</p>
+<p><b>Needed for:</b> Reminders, alerts, cron task results. Works with Telegram.</p>
+
+<h3>Recommended starter setup</h3>
+<p>For your first week, keep it simple:</p>
+<ul>
+<li>✅ <b>read/write/edit</b> — on (needed for memory)</li>
+<li>✅ <b>web_search/web_fetch</b> — on (research)</li>
+<li>✅ <b>cron</b> — on (reminders)</li>
+<li>✅ <b>message</b> — on (Telegram proactive messages)</li>
+<li>⚠️ <b>exec</b> — start with "allowlist" or "deny"</li>
+<li>❌ <b>browser</b> — off until needed</li>
+</ul>
+<p>You can expand permissions anytime as you get comfortable.</p>
+
+<div class="good">✅ Permissions set. Your bot has the access it needs without giving away the keys to the castle.</div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="phase9"><span class="phase">Phase 9</span><br>Connect Telegram</h2>
+
+<div class="section">
+<p>Remember that bot token from Phase 2? Time to use it.</p>
+
+<h3>1. Open your config</h3>
+<pre onclick="copyCmd(this)">openclaw config edit</pre>
+
+<h3>2. Add the Telegram channel</h3>
+<p>Add this to your config (or find the existing channels section and add to it):</p>
+<pre onclick="copyCmd(this)">"channels": {
+  "telegram": {
+    "enabled": true,
+    "botToken": "YOUR_BOT_TOKEN_HERE",
+    "dmPolicy": "allowlist",
+    "allowFrom": ["YOUR_TELEGRAM_USER_ID"]
+  }
+}</pre>
+
+<h3>3. Find your Telegram user ID</h3>
+<ol>
+<li>Open Telegram</li>
+<li>Search for <b>@userinfobot</b></li>
+<li>Start a chat with it — it'll reply with your user ID (a number like <code>123456789</code>)</li>
+<li>Put that number in the <code>"allowFrom"</code> array above</li>
+</ol>
+
+<div class="warn">⚠️ The <b>allowFrom</b> list is critical. Without it, ANYONE who finds your bot can talk to it and use your API credits. Only put YOUR user ID in there.</div>
+
+<h3>4. Restart OpenClaw</h3>
+<pre onclick="copyCmd(this)">openclaw gateway restart</pre>
+
+<h3>5. Test it</h3>
+<ol>
+<li>Open Telegram</li>
+<li>Search for your bot by its username</li>
+<li>Send it a message: "Hey, are you alive?"</li>
+<li>It should respond</li>
+</ol>
+
+<div class="good">✅ You can now talk to your bot from your phone, anywhere. Welcome to the future.</div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="phase10"><span class="phase">Phase 10</span><br>Final Checks</h2>
+
+<div class="section">
+<h3>1. Verify everything is running</h3>
+<pre onclick="copyCmd(this)">openclaw status</pre>
+
+<h3>2. Check the web dashboard</h3>
+<p>Open in your browser:</p>
+<pre onclick="copyCmd(this)">http://127.0.0.1:18789</pre>
+
+<h3>3. Test a full conversation</h3>
+<p>Send your bot a few messages via Telegram. Try:</p>
+<ul>
+<li>"What's your name?"</li>
+<li>"Remember that my favorite color is blue" (tests memory)</li>
+<li>"What's my favorite color?" (in a new session — tests if memory persists)</li>
+</ul>
+
+<h3>4. Check your API spend</h3>
+<p>Go to <a href="https://console.anthropic.com/settings/billing" style="color:#00e5ff">console.anthropic.com/settings/billing</a> and see what that test conversation cost. Probably under $0.05.</p>
+
+<h3>5. Set OpenClaw to start on boot (optional)</h3>
+<p>So your bot starts automatically when your computer turns on:</p>
+<pre onclick="copyCmd(this)">openclaw gateway install</pre>
+<div class="note">This creates a systemd service so OpenClaw runs in the background and survives reboots.</div>
+</div>
+
+<!-- ============================================ -->
+<div class="section">
+<div class="section-label">🎉 You're Done</div>
+<p>You now have:</p>
+<ul>
+<li>✅ Linux installed and updated</li>
+<li>✅ Separate bot accounts (Google, GitHub, Telegram)</li>
+<li>✅ Anthropic API with a hard spending cap</li>
+<li>✅ OpenClaw installed and configured</li>
+<li>✅ Firewall, SSH hardening, auto-updates</li>
+<li>✅ Token-saving optimizations (compaction, memory, caching)</li>
+<li>✅ Permissions set appropriately</li>
+<li>✅ Telegram connected and locked to your account only</li>
+</ul>
+
+<p><b>Your bot is yours. Talk to it. Teach it. Build with it.</b></p>
+
+<div class="good">💡 <b>Pro tip:</b> Your first week, just chat with it. Get to know it. Let it build up memory about you. The more it knows (via USER.md and daily memory files), the less you need to explain, and the fewer tokens you burn. It gets cheaper AND better over time.</div>
+</div>
+
+<hr>
+
+<p style="text-align:center;">
+<a href="url-setup.html" style="color:#00e5ff; margin: 0 15px;">🛡️ Security Reference</a>
+<a href="url-budget.html" style="color:#ffaa00; margin: 0 15px;">💰 Budget Guide</a>
+<a href="url.html" style="color:#ff6b6b; margin: 0 15px;">🔧 Troubleshooting</a>
+</p>
+
+<hr>
+<p class="footer">Last updated: Feb 15, 2026 — Paddy 🐘</p>
+
+<script>
+function copyCmd(el) {
+  const text = el.textContent.trim();
+  navigator.clipboard.writeText(text);
+  el.classList.add('copied');
+  setTimeout(() => el.classList.remove('copied'), 2000);
+}
+</script>
+</body>
+</html>
