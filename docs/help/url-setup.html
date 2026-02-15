@@ -105,12 +105,21 @@ ul, ol { padding-left: 20px; }
 <div class="section">
 <div class="section-label">🔑 API Keys & Permissions</div>
 
-<h3>11. Set up your Anthropic API key</h3>
+<h3>11. Create SEPARATE accounts for your bot</h3>
+<div class="note">⚠️ <b>IMPORTANT:</b> Do NOT use your personal accounts. Create brand new, dedicated accounts for your bot. This keeps your personal stuff safe and gives the bot its own identity.</div>
+<ul>
+<li><b>New Google account</b> — for Google Drive, YouTube, Gmail (e.g. <code>yourbot.name@gmail.com</code>)</li>
+<li><b>New GitHub account</b> — for repos, Pages, automation</li>
+<li><b>Separate API keys</b> — never share keys between your personal use and the bot</li>
+</ul>
+<p>Then share specific folders/repos from your personal accounts TO the bot's accounts as needed. Bot gets access, you stay in control.</p>
+
+<h3>12. Set up your Anthropic API key</h3>
 <p>Get your key from <a href="https://console.anthropic.com/settings/keys" style="color:#00e5ff">console.anthropic.com</a></p>
 <p>Add it to your gateway config:</p>
 <pre onclick="copyCmd(this)">"anthropicApiKey": "sk-ant-your-key-here"</pre>
 
-<h3>12. Give your agent tool access</h3>
+<h3>13. Give your agent tool access</h3>
 <p>In your config, make sure these are enabled for full functionality:</p>
 <ul>
 <li><b>exec</b> — run shell commands</li>
@@ -122,7 +131,7 @@ ul, ol { padding-left: 20px; }
 </ul>
 <div class="note">Start conservative. Add permissions as you need them. You can always expand later.</div>
 
-<h3>13. Connect a messaging channel (optional)</h3>
+<h3>14. Connect a messaging channel (optional)</h3>
 <p>To talk to your agent via Telegram:</p>
 <ol>
 <li>Message <b>@BotFather</b> on Telegram → create a new bot → get the token</li>
@@ -135,10 +144,10 @@ ul, ol { padding-left: 20px; }
 <div class="section">
 <div class="section-label">✅ Verify Everything Works</div>
 
-<h3>14. Check OpenClaw status</h3>
+<h3>15. Check OpenClaw status</h3>
 <pre onclick="copyCmd(this)">openclaw status</pre>
 
-<h3>15. Test from the dashboard</h3>
+<h3>16. Test from the dashboard</h3>
 <p>Open in your browser:</p>
 <pre onclick="copyCmd(this)">http://127.0.0.1:18789</pre>
 <p>Try sending a message in the chat. If it responds, you're golden.</p>
