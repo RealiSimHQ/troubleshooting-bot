@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenClaw Budget Guide — What $100/mo Gets You</title>
+<style>
+body { background: #0a0a0f; color: #e0e0e0; font-family: 'Segoe UI', system-ui, sans-serif; max-width: 750px; margin: 40px auto; padding: 0 20px; line-height: 1.6; }
+h1 { color: #00ffff; border-bottom: 2px solid #00ffff33; padding-bottom: 10px; }
+h2 { color: #ff6b6b; margin-top: 30px; }
+h3 { color: #ffaa00; margin-top: 20px; }
+hr { border: none; border-top: 1px solid #333; margin: 25px 0; }
+p { margin: 10px 0; }
+b { color: #ffaa00; }
+li { margin: 6px 0; }
+ul, ol { padding-left: 20px; }
+.back-link { display: inline-block; margin-bottom: 20px; color: #00e5ff; text-decoration: none; font-size: 0.9em; }
+.back-link:hover { text-decoration: underline; }
+.footer { color: #555; font-style: italic; margin-top: 40px; }
+.section { background: #12131a; border: 1px solid #1a1a35; border-radius: 12px; padding: 20px; margin: 20px 0; }
+.section-label { color: #00e5ff; font-size: 0.75em; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
+.note { background: #ffaa0015; border-left: 3px solid #ffaa00; padding: 10px 14px; border-radius: 0 8px 8px 0; margin: 10px 0; font-size: 0.9em; }
+.good { background: #00ff8815; border-left: 3px solid #00ff88; padding: 10px 14px; border-radius: 0 8px 8px 0; margin: 10px 0; font-size: 0.9em; }
+.warn { background: #ff444415; border-left: 3px solid #ff4444; padding: 10px 14px; border-radius: 0 8px 8px 0; margin: 10px 0; font-size: 0.9em; }
+table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+th { background: #1a1b2e; color: #00e5ff; text-align: left; padding: 10px 12px; border-bottom: 2px solid #00ffff33; }
+td { padding: 10px 12px; border-bottom: 1px solid #222; }
+tr:hover { background: #ffffff08; }
+.price { color: #00ff88; font-weight: 700; }
+.tier-free { border-left: 4px solid #00ff88; }
+.tier-budget { border-left: 4px solid #00e5ff; }
+.tier-mid { border-left: 4px solid #ffaa00; }
+.tier-premium { border-left: 4px solid #ff6b6b; }
+code { background: #1a1b2e; padding: 2px 6px; border-radius: 4px; font-size: 0.95em; color: #00ffff; }
+</style>
+</head>
+<body>
+
+<a class="back-link" href="url.html">← Back to Troubleshooting</a>
+
+<h1>💰 OpenClaw Budget Guide</h1>
+<p>What does <b>$50 every two weeks ($100/month)</b> actually get you? Here's the honest breakdown.</p>
+
+<!-- ============================================ -->
+<div class="section">
+<div class="section-label">🆓 Option 0: Ollama (Free, Local)</div>
+
+<p>What you're running right now. <b>$0/month forever.</b></p>
+<ul>
+<li>Runs on your hardware (needs decent GPU + RAM)</li>
+<li>Models like Llama 3.1, Mistral, Qwen — good but not top-tier</li>
+<li>No internet needed, fully private</li>
+<li>Slower than cloud APIs, limited by your GPU</li>
+</ul>
+<div class="good">✅ Great for: learning OpenClaw, basic tasks, privacy. Zero risk of surprise bills.</div>
+<p><b>Limitations:</b> Local models are typically less capable than Claude/GPT for complex reasoning, coding, and long context tasks. Think of it as a Honda Civic — reliable, gets you there, but it's not a race car.</p>
+</div>
+
+<!-- ============================================ -->
+<div class="section">
+<div class="section-label">💵 Your Budget: $100/month</div>
+
+<h2>The Models (Ranked by Cost)</h2>
+
+<table>
+<tr>
+<th>Model</th>
+<th>Input (per 1M tokens)</th>
+<th>Output (per 1M tokens)</th>
+<th>Brain Level</th>
+</tr>
+<tr class="tier-free">
+<td><b>Haiku 3.5</b></td>
+<td class="price">$0.80</td>
+<td class="price">$4.00</td>
+<td>Fast & cheap, good for simple stuff</td>
+</tr>
+<tr class="tier-budget">
+<td><b>Sonnet 4</b></td>
+<td class="price">$3.00</td>
+<td class="price">$15.00</td>
+<td>Best bang for buck — smart & fast</td>
+</tr>
+<tr class="tier-mid">
+<td><b>GPT-4o</b></td>
+<td class="price">$2.50</td>
+<td class="price">$10.00</td>
+<td>OpenAI's main model, solid all-around</td>
+</tr>
+<tr class="tier-premium">
+<td><b>Opus 4</b></td>
+<td class="price">$15.00</td>
+<td class="price">$75.00</td>
+<td>Top tier brain — expensive</td>
+</tr>
+</table>
+
+<div class="note">💡 <b>What's a token?</b> Roughly 4 characters = 1 token. A typical message you send is ~200-500 tokens. The bot's reply is ~300-1000 tokens. But the system prompt + conversation history (context) gets sent EVERY message — that's where costs add up.</div>
+</div>
+
+<!-- ============================================ -->
+<div class="section">
+<div class="section-label">📊 What $100/month Actually Buys</div>
+
+<h3>🏆 Recommended: Claude Sonnet 4 — ~$100/month</h3>
+<p>Average cost per back-and-forth exchange: <b>~$0.01 - $0.03</b> (with prompt caching enabled)</p>
+<ul>
+<li>~<b>3,000 - 8,000+ messages</b> per month</li>
+<li>That's <b>100-270 messages per day</b></li>
+<li>Plenty for all-day casual use, coding help, research, file management</li>
+</ul>
+<div class="good">✅ This is the sweet spot. Smart enough for real work, cheap enough to use all day without sweating.</div>
+
+<h3>🧠 Premium: Claude Opus 4 — ~$100/month</h3>
+<p>Average cost per exchange: <b>~$0.05 - $0.20</b></p>
+<ul>
+<li>~<b>500 - 2,000 messages</b> per month</li>
+<li>That's <b>15-65 messages per day</b></li>
+<li>Best for complex tasks — coding, deep research, long documents</li>
+</ul>
+<div class="warn">⚠️ Burns through budget fast with heavy use. Best paired with Sonnet for daily stuff, switching to Opus only when you need the big brain.</div>
+
+<h3>💡 Smart Strategy: Mix Models</h3>
+<p>Use Sonnet for 90% of your conversations, switch to Opus when you need serious horsepower:</p>
+<ul>
+<li><b>Sonnet</b> for: daily chat, reminders, quick questions, file management, simple coding</li>
+<li><b>Opus</b> for: complex coding projects, deep analysis, writing, anything that needs real thinking</li>
+</ul>
+<p>With this mix, $100/month gives you comfortable all-day use with occasional Opus power-ups.</p>
+</div>
+
+<!-- ============================================ -->
+<div class="section">
+<div class="section-label">🔥 What Burns Tokens Fast</div>
+
+<table>
+<tr><th>Activity</th><th>Cost per Use</th><th>Why</th></tr>
+<tr><td>Quick question/answer</td><td class="price">$0.005 - $0.01</td><td>Short context, short reply</td></tr>
+<tr><td>Coding help (single file)</td><td class="price">$0.01 - $0.05</td><td>Medium context, code in/out</td></tr>
+<tr><td>Long conversation (50+ messages)</td><td class="price">$0.03 - $0.10/msg</td><td>Context grows every message</td></tr>
+<tr><td>Reading/analyzing large files</td><td class="price">$0.05 - $0.30</td><td>Big input, file contents in context</td></tr>
+<tr><td>Sub-agent tasks (background work)</td><td class="price">$0.50 - $5.00</td><td>Full autonomous session, many tool calls</td></tr>
+<tr><td>Image analysis</td><td class="price">$0.01 - $0.05</td><td>Images are token-heavy</td></tr>
+</table>
+
+<div class="warn">⚠️ <b>The #1 cost trap:</b> Long conversations. Every message resends the ENTIRE conversation history. A 100-message chat costs WAY more per message than a fresh one. Use <code>/new</code> to start fresh conversations often.</div>
+</div>
+
+<!-- ============================================ -->
+<div class="section">
+<div class="section-label">🛡️ Guardrails — How to NOT Go Over Budget</div>
+
+<h3>1. Set a hard spending limit on your API account</h3>
+<p>Go to your provider's dashboard and set a monthly spending cap:</p>
+<ul>
+<li><b>Anthropic:</b> <a href="https://console.anthropic.com/settings/limits" style="color:#00e5ff">console.anthropic.com/settings/limits</a> → Set "Monthly spend limit" to $50 (per pay period)</li>
+<li><b>OpenAI:</b> <a href="https://platform.openai.com/settings/organization/limits" style="color:#00e5ff">platform.openai.com → Settings → Limits</a></li>
+</ul>
+<div class="good">✅ This is your #1 guardrail. The API literally stops working when you hit the cap. No surprises.</div>
+
+<h3>2. Use Sonnet as your default model</h3>
+<p>Set Sonnet (not Opus) as your default so you're not accidentally burning premium tokens on "hey what time is it":</p>
+<p>In your OpenClaw config:</p>
+<code>"primary": "anthropic/claude-sonnet-4-20250514"</code>
+
+<h3>3. Enable prompt caching</h3>
+<p>This caches the system prompt and context so you're not paying full price every message. Saves 50-90% on input tokens.</p>
+
+<h3>4. Enable compaction</h3>
+<p>Auto-summarizes old conversation so context doesn't grow forever:</p>
+<code>"compaction": { "mode": "safeguard" }</code>
+
+<h3>5. Start fresh conversations regularly</h3>
+<p>Use <code>/new</code> to start a new session when you switch topics. A 5-message conversation costs a fraction of a 100-message one.</p>
+
+<h3>6. Monitor your spending</h3>
+<p>Check your API dashboard regularly. Both Anthropic and OpenAI show daily/weekly spend graphs.</p>
+</div>
+
+<!-- ============================================ -->
+<div class="section">
+<div class="section-label">🎯 The Bottom Line</div>
+
+<table>
+<tr><th>Budget</th><th>Model</th><th>Messages/Day</th><th>Vibe</th></tr>
+<tr class="tier-free"><td><b>$0</b></td><td>Ollama (local)</td><td>Unlimited</td><td>Free but limited brainpower</td></tr>
+<tr class="tier-budget"><td><b>$50/mo</b></td><td>Sonnet</td><td>50-130</td><td>Solid daily driver</td></tr>
+<tr class="tier-budget"><td><b>$100/mo</b></td><td>Sonnet</td><td>100-270</td><td>Comfortable all-day use</td></tr>
+<tr class="tier-mid"><td><b>$100/mo</b></td><td>Sonnet + Opus mix</td><td>80-150</td><td>Best of both worlds</td></tr>
+<tr class="tier-premium"><td><b>$100/mo</b></td><td>Opus only</td><td>15-65</td><td>Premium brain, limited volume</td></tr>
+</table>
+
+<div class="good">💡 <b>Recommendation for $100/month:</b> Start with Sonnet as your default. Set a $50 spend cap per two-week period on Anthropic. Use it for a week and check your spend. You'll probably find Sonnet is more than enough for daily use, and you can upgrade to the mixed strategy once you know your usage patterns.</div>
+</div>
+
+<!-- ============================================ -->
+<hr>
+<p class="footer">Prices are approximate and based on current Anthropic/OpenAI pricing as of early 2026. Actual costs depend on conversation length, caching, and usage patterns. Always check your provider dashboard for real spend.<br><br>Last updated: Feb 15, 2026 — Paddy 🐘</p>
+
+</body>
+</html>
