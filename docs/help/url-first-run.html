@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenClaw First Run — Save Tokens on Day 1</title>
+<style>
+body { background: #0a0a0f; color: #e0e0e0; font-family: 'Segoe UI', system-ui, sans-serif; max-width: 750px; margin: 40px auto; padding: 0 20px; line-height: 1.6; }
+h1 { color: #00ffff; border-bottom: 2px solid #00ffff33; padding-bottom: 10px; }
+h2 { color: #ff6b6b; margin-top: 30px; }
+h3 { color: #ffaa00; margin-top: 20px; }
+hr { border: none; border-top: 1px solid #333; margin: 25px 0; }
+pre { background: #1a1b2e; border: 1px solid #00ffff33; border-radius: 8px; padding: 14px 18px; font-family: 'Cascadia Code', 'Fira Code', monospace; font-size: 1.05em; color: #00ffff; cursor: pointer; position: relative; margin: 10px 0; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word; }
+pre:hover { border-color: #00ffff; }
+pre::after { content: '📋 click to copy'; position: absolute; top: 8px; right: 12px; font-size: 0.7em; color: #666; font-family: 'Segoe UI', sans-serif; }
+pre.copied::after { content: '✅ copied!'; color: #00ff88; }
+p { margin: 10px 0; }
+b { color: #ffaa00; }
+li { margin: 6px 0; }
+ul, ol { padding-left: 20px; }
+.back-link { display: inline-block; margin-bottom: 20px; color: #00e5ff; text-decoration: none; font-size: 0.9em; }
+.back-link:hover { text-decoration: underline; }
+.footer { color: #555; font-style: italic; margin-top: 40px; }
+.section { background: #12131a; border: 1px solid #1a1a35; border-radius: 12px; padding: 20px; margin: 20px 0; }
+.section-label { color: #00e5ff; font-size: 0.75em; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
+.note { background: #ffaa0015; border-left: 3px solid #ffaa00; padding: 10px 14px; border-radius: 0 8px 8px 0; margin: 10px 0; font-size: 0.9em; }
+.good { background: #00ff8815; border-left: 3px solid #00ff88; padding: 10px 14px; border-radius: 0 8px 8px 0; margin: 10px 0; font-size: 0.9em; }
+.warn { background: #ff444415; border-left: 3px solid #ff4444; padding: 10px 14px; border-radius: 0 8px 8px 0; margin: 10px 0; font-size: 0.9em; }
+code { background: #1a1b2e; padding: 2px 6px; border-radius: 4px; font-size: 0.95em; color: #00ffff; }
+</style>
+</head>
+<body>
+
+<a class="back-link" href="url.html">← Back to Troubleshooting</a>
+
+<h1>🎯 First Run — Stop Burning Tokens</h1>
+<p>Your bot just came alive and wants to have a long intro conversation. That's expensive. Here's how to skip the expensive part and get straight to using it.</p>
+
+<div class="warn">⚠️ <b>The Problem:</b> The intro/bootstrap conversation can burn 15-20k+ tokens just getting to know you. That's $0.50-$1.00+ on Sonnet before you've even done anything useful. Every session without memory files repeats this.</div>
+
+<!-- ============================================ -->
+<div class="section">
+<div class="section-label">Step 1 — Stop the current conversation</div>
+
+<p>If you're in a chat right now, type:</p>
+<pre onclick="copyCmd(this)">/new</pre>
+<p>This starts a fresh session. The old one's tokens are already spent — don't keep adding to it.</p>
+</div>
+
+<!-- ============================================ -->
+<div class="section">
+<div class="section-label">Step 2 — Create your memory files</div>
+
+<p>These files tell your bot who you are so it doesn't have to ASK (and burn tokens doing it).</p>
+
+<h3>Create the workspace and memory folder:</h3>
+<pre onclick="copyCmd(this)">mkdir -p ~/.openclaw/workspace/memory</pre>
+
+<h3>Create USER.md — info about you:</h3>
+<pre onclick="copyCmd(this)">cat > ~/.openclaw/workspace/USER.md << 'EOF'
+# About Me
+- Name: (your name)
+- What to call me: (nickname or first name)
+- Timezone: America/New_York
+- Interests: (list a few things you're into)
+- What I want help with: (what you plan to use the bot for)
+
+## Notes
+- (anything else you want it to know about you)
+EOF</pre>
+<div class="note">Edit this file and replace the (parentheses) parts with your actual info. Use any text editor: <code>nano ~/.openclaw/workspace/USER.md</code></div>
+
+<h3>Create IDENTITY.md — who your bot is:</h3>
+<pre onclick="copyCmd(this)">cat > ~/.openclaw/workspace/IDENTITY.md << 'EOF'
+# Identity
+- Name: (pick a name for your bot)
+- Personality: helpful, casual, to the point
+- Emoji: 🤖
+EOF</pre>
+
+<h3>Create SOUL.md — behavior rules:</h3>
+<pre onclick="copyCmd(this)">cat > ~/.openclaw/workspace/SOUL.md << 'EOF'
+# Behavior
+- Be helpful and concise
+- Don't waste tokens on filler ("Great question!" etc.)
+- Remember things by writing to memory files
+- Ask before doing anything that affects the outside world
+EOF</pre>
+</div>
+
+<!-- ============================================ -->
+<div class="section">
+<div class="section-label">Step 3 — Delete the bootstrap file</div>
+
+<p>The file <code>BOOTSTRAP.md</code> tells your bot to have a long getting-to-know-you conversation every time. Once you've set up USER.md and IDENTITY.md, you don't need it anymore.</p>
+
+<pre onclick="copyCmd(this)">rm ~/.openclaw/workspace/BOOTSTRAP.md 2>/dev/null; echo "Done"</pre>
+
+<div class="good">✅ Without BOOTSTRAP.md, your bot skips the intro and just starts working. It reads USER.md and IDENTITY.md instead — way cheaper.</div>
+</div>
+
+<!-- ============================================ -->
+<div class="section">
+<div class="section-label">Step 4 — Start a fresh conversation</div>
+
+<p>Now start a new chat (via Telegram or the web dashboard). Your bot should:</p>
+<ul>
+<li>Already know your name (from USER.md)</li>
+<li>Already know its own name (from IDENTITY.md)</li>
+<li>Skip the long intro</li>
+<li>Just be ready to help</li>
+</ul>
+
+<p>Try saying something like: <b>"Hey, what do you know about me?"</b></p>
+<p>It should pull from your USER.md file. If it does — you're set.</p>
+</div>
+
+<!-- ============================================ -->
+<div class="section">
+<div class="section-label">Step 5 — Ongoing token-saving habits</div>
+
+<h3>Start fresh often</h3>
+<p>Use <code>/new</code> when you switch topics. Long conversations get expensive because the ENTIRE history gets resent with every message.</p>
+
+<h3>Let the bot use files</h3>
+<p>Instead of pasting huge blocks of text in chat, save it to a file and tell the bot to read it:</p>
+<ul>
+<li>Bad: (paste 5000 words into chat) "fix this"</li>
+<li>Good: "read ~/myfile.txt and fix the bug on line 42"</li>
+</ul>
+
+<h3>Tell it to remember things</h3>
+<p>Say "remember that I prefer X" or "save this for later" — it'll write to memory files instead of you having to repeat yourself next session.</p>
+
+<h3>Check your spend</h3>
+<p>Visit <a href="https://console.anthropic.com/settings/billing" style="color:#00e5ff">console.anthropic.com/settings/billing</a> after your first day to see what the intro cost vs. normal use.</p>
+</div>
+
+<!-- ============================================ -->
+<div class="section">
+<div class="section-label">💡 Why this matters</div>
+
+<table style="width:100%; border-collapse:collapse;">
+<tr style="border-bottom:1px solid #333;">
+<td style="padding:8px;"><b>Without memory files:</b></td>
+<td style="padding:8px; color:#ff4444;">Bot asks who you are every session. 5-15k tokens wasted on intro. Expensive.</td>
+</tr>
+<tr>
+<td style="padding:8px;"><b>With memory files:</b></td>
+<td style="padding:8px; color:#00ff88;">Bot reads USER.md on startup. Already knows you. Straight to work. Cheap.</td>
+</tr>
+</table>
+</div>
+
+<hr>
+
+<p style="text-align:center;">
+<a href="url-full-setup.html" style="color:#00e5ff; margin: 0 15px;">🚀 Full Setup Guide</a>
+<a href="url-budget.html" style="color:#ffaa00; margin: 0 15px;">💰 Budget Guide</a>
+<a href="url.html" style="color:#ff6b6b; margin: 0 15px;">🔧 Troubleshooting</a>
+</p>
+
+<hr>
+<p class="footer">Last updated: Feb 15, 2026 — Paddy 🐘</p>
+
+<script>
+function copyCmd(el) {
+  const text = el.textContent.trim();
+  navigator.clipboard.writeText(text);
+  el.classList.add('copied');
+  setTimeout(() => el.classList.remove('copied'), 2000);
+}
+</script>
+</body>
+</html>
