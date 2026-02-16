@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OpenClaw Budget Guide — What $100/mo Gets You</title>
+<title>OpenClaw Budget & API Guide</title>
 <style>
 body { background: #0a0a0f; color: #e0e0e0; font-family: 'Segoe UI', system-ui, sans-serif; max-width: 750px; margin: 40px auto; padding: 0 20px; line-height: 1.6; }
 h1 { color: #00ffff; border-bottom: 2px solid #00ffff33; padding-bottom: 10px; }
-h2 { color: #ff6b6b; margin-top: 30px; }
+h2 { color: #ff6b6b; margin-top: 40px; border-bottom: 1px solid #ff6b6b33; padding-bottom: 8px; }
 h3 { color: #ffaa00; margin-top: 20px; }
+h4 { color: #00e5ff; margin-top: 16px; }
 hr { border: none; border-top: 1px solid #333; margin: 25px 0; }
 p { margin: 10px 0; }
 b { color: #ffaa00; }
@@ -27,175 +28,248 @@ th { background: #1a1b2e; color: #00e5ff; text-align: left; padding: 10px 12px; 
 td { padding: 10px 12px; border-bottom: 1px solid #222; }
 tr:hover { background: #ffffff08; }
 .price { color: #00ff88; font-weight: 700; }
-.tier-free { border-left: 4px solid #00ff88; }
-.tier-budget { border-left: 4px solid #00e5ff; }
-.tier-mid { border-left: 4px solid #ffaa00; }
-.tier-premium { border-left: 4px solid #ff6b6b; }
 code { background: #1a1b2e; padding: 2px 6px; border-radius: 4px; font-size: 0.95em; color: #00ffff; }
+.api-card { background: #12131a; border: 1px solid #1a1a35; border-radius: 10px; padding: 16px; margin: 12px 0; }
+.api-card h4 { margin-top: 0; }
+.api-tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; font-weight: 600; margin-left: 8px; }
+.tag-required { background: #ff444433; color: #ff6b6b; }
+.tag-optional { background: #ffaa0022; color: #ffaa00; }
+.tag-free { background: #00ff8822; color: #00ff88; }
+.tag-paid { background: #00e5ff22; color: #00e5ff; }
 </style>
 </head>
 <body>
 
 <a class="back-link" href="url.html">← Back to Troubleshooting</a>
 
-<h1>💰 OpenClaw Budget Guide</h1>
-<p>What does <b>$50 every two weeks ($100/month)</b> actually get you? Here's the honest breakdown.</p>
+<h1>💰 OpenClaw Budget & API Guide</h1>
+<p>No jargon. Just what things cost and what you need.</p>
 
 <!-- ============================================ -->
+<h2>💬 What Does a Conversation Cost?</h2>
+
 <div class="section">
-<div class="section-label">🆓 Option 0: Ollama (Free, Local)</div>
-
-<p>What you're running right now. <b>$0/month forever.</b></p>
-<ul>
-<li>Runs on your hardware (needs decent GPU + RAM)</li>
-<li>Models like Llama 3.1, Mistral, Qwen — good but not top-tier</li>
-<li>No internet needed, fully private</li>
-<li>Slower than cloud APIs, limited by your GPU</li>
-</ul>
-<div class="good">✅ Great for: learning OpenClaw, basic tasks, privacy. Zero risk of surprise bills.</div>
-<p><b>Limitations:</b> Local models are typically less capable than Claude/GPT for complex reasoning, coding, and long context tasks. Think of it as a Honda Civic — reliable, gets you there, but it's not a race car.</p>
-</div>
-
-<!-- ============================================ -->
-<div class="section">
-<div class="section-label">💵 Your Budget: $100/month</div>
-
-<h2>The Models (Ranked by Cost)</h2>
+<p>Forget "tokens." Think of it like this:</p>
 
 <table>
 <tr>
-<th>Model</th>
-<th>Input (per 1M tokens)</th>
-<th>Output (per 1M tokens)</th>
-<th>Brain Level</th>
+<th>What you're doing</th>
+<th>Example</th>
+<th>Cost</th>
 </tr>
-<tr class="tier-free">
-<td><b>Haiku 3.5</b></td>
-<td class="price">$0.80</td>
-<td class="price">$4.00</td>
-<td>Fast & cheap, good for simple stuff</td>
+<tr>
+<td><b>Quick question</b></td>
+<td>"What's the weather?" / "Remind me at 5pm" / "What year did X happen?"</td>
+<td class="price">~1¢</td>
 </tr>
-<tr class="tier-budget">
-<td><b>Sonnet 4</b></td>
-<td class="price">$3.00</td>
-<td class="price">$15.00</td>
-<td>Best bang for buck — smart & fast</td>
+<tr>
+<td><b>Short conversation</b></td>
+<td>"Help me write a text to my boss" / "Explain this thing" / "Make me a grocery list"</td>
+<td class="price">~5-10¢</td>
 </tr>
-<tr class="tier-mid">
-<td><b>GPT-4o</b></td>
-<td class="price">$2.50</td>
-<td class="price">$10.00</td>
-<td>OpenAI's main model, solid all-around</td>
+<tr>
+<td><b>Work session</b></td>
+<td>"Help me write this email chain" / "Read this document and summarize it" / "Plan my week"</td>
+<td class="price">~10-25¢</td>
 </tr>
-<tr class="tier-premium">
-<td><b>Opus 4</b></td>
-<td class="price">$15.00</td>
-<td class="price">$75.00</td>
-<td>Top tier brain — expensive</td>
+<tr>
+<td><b>Heavy project</b></td>
+<td>"Build me a webpage" / "Debug this code for an hour" / "Analyze this big file"</td>
+<td class="price">~25¢ - $2</td>
+</tr>
+<tr>
+<td><b>Major task</b></td>
+<td>"Research this topic and write a full report" / "Build an entire project from scratch"</td>
+<td class="price">~$1 - $5</td>
 </tr>
 </table>
 
-<div class="note">💡 <b>What's a token?</b> Roughly 4 characters = 1 token. A typical message you send is ~200-500 tokens. The bot's reply is ~300-1000 tokens. But the system prompt + conversation history (context) gets sent EVERY message — that's where costs add up.</div>
+<div class="good">💡 <b>Rule of thumb:</b> A quick back-and-forth costs about a penny. An hour of steady chatting costs about 50 cents to a dollar.</div>
 </div>
 
 <!-- ============================================ -->
+<h2>📱 Plans — Pick Your Speed</h2>
+
 <div class="section">
-<div class="section-label">📊 What $100/month Actually Buys</div>
-
-<h3>🏆 Recommended: Claude Sonnet 4 — ~$100/month</h3>
-<p>Average cost per back-and-forth exchange: <b>~$0.01 - $0.03</b> (with prompt caching enabled)</p>
-<ul>
-<li>~<b>3,000 - 8,000+ messages</b> per month</li>
-<li>That's <b>100-270 messages per day</b></li>
-<li>Plenty for all-day casual use, coding help, research, file management</li>
-</ul>
-<div class="good">✅ This is the sweet spot. Smart enough for real work, cheap enough to use all day without sweating.</div>
-
-<h3>🧠 Premium: Claude Opus 4 — ~$100/month</h3>
-<p>Average cost per exchange: <b>~$0.05 - $0.20</b></p>
-<ul>
-<li>~<b>500 - 2,000 messages</b> per month</li>
-<li>That's <b>15-65 messages per day</b></li>
-<li>Best for complex tasks — coding, deep research, long documents</li>
-</ul>
-<div class="warn">⚠️ Burns through budget fast with heavy use. Best paired with Sonnet for daily stuff, switching to Opus only when you need the big brain.</div>
-
-<h3>💡 Smart Strategy: Mix Models</h3>
-<p>Use Sonnet for 90% of your conversations, switch to Opus when you need serious horsepower:</p>
-<ul>
-<li><b>Sonnet</b> for: daily chat, reminders, quick questions, file management, simple coding</li>
-<li><b>Opus</b> for: complex coding projects, deep analysis, writing, anything that needs real thinking</li>
-</ul>
-<p>With this mix, $100/month gives you comfortable all-day use with occasional Opus power-ups.</p>
-</div>
-
-<!-- ============================================ -->
-<div class="section">
-<div class="section-label">🔥 What Burns Tokens Fast</div>
+<p>Think of it like a phone plan. These are approximate — your actual usage may vary.</p>
 
 <table>
-<tr><th>Activity</th><th>Cost per Use</th><th>Why</th></tr>
-<tr><td>Quick question/answer</td><td class="price">$0.005 - $0.01</td><td>Short context, short reply</td></tr>
-<tr><td>Coding help (single file)</td><td class="price">$0.01 - $0.05</td><td>Medium context, code in/out</td></tr>
-<tr><td>Long conversation (50+ messages)</td><td class="price">$0.03 - $0.10/msg</td><td>Context grows every message</td></tr>
-<tr><td>Reading/analyzing large files</td><td class="price">$0.05 - $0.30</td><td>Big input, file contents in context</td></tr>
-<tr><td>Sub-agent tasks (background work)</td><td class="price">$0.50 - $5.00</td><td>Full autonomous session, many tool calls</td></tr>
-<tr><td>Image analysis</td><td class="price">$0.01 - $0.05</td><td>Images are token-heavy</td></tr>
+<tr>
+<th>Plan</th>
+<th>Monthly Cost</th>
+<th>What it covers</th>
+</tr>
+<tr>
+<td><b>🆓 Free (Ollama)</b></td>
+<td class="price">$0</td>
+<td>Unlimited — but runs on your hardware and isn't as smart. Good for learning.</td>
+</tr>
+<tr>
+<td><b>💡 Basic</b></td>
+<td class="price">$25/mo</td>
+<td>Light daily use — reminders, quick questions, short chats. Maybe 30-50 exchanges a day.</td>
+</tr>
+<tr>
+<td><b>⚡ Standard</b></td>
+<td class="price">$50/mo</td>
+<td>Medium daily use — writing help, research, reading files, daily driver stuff. 50-130 exchanges a day.</td>
+</tr>
+<tr>
+<td><b>🔥 Power</b></td>
+<td class="price">$100/mo</td>
+<td>Heavy daily use — coding, big projects, all-day conversations, background tasks. 100-270+ exchanges a day.</td>
+</tr>
 </table>
 
-<div class="warn">⚠️ <b>The #1 cost trap:</b> Long conversations. Every message resends the ENTIRE conversation history. A 100-message chat costs WAY more per message than a fresh one. Use <code>/new</code> to start fresh conversations often.</div>
+<div class="note">These estimates assume <b>Claude Sonnet</b> (the recommended model). Opus (the bigger brain) costs ~5x more per message — use it only when you need serious thinking power.</div>
 </div>
 
 <!-- ============================================ -->
+<h2>🔥 What Burns Money Fast</h2>
+
 <div class="section">
-<div class="section-label">🛡️ Guardrails — How to NOT Go Over Budget</div>
-
-<h3>1. Set a hard spending limit on your API account</h3>
-<p>Go to your provider's dashboard and set a monthly spending cap:</p>
-<ul>
-<li><b>Anthropic:</b> <a href="https://console.anthropic.com/settings/limits" style="color:#00e5ff">console.anthropic.com/settings/limits</a> → Set "Monthly spend limit" to $50 (per pay period)</li>
-<li><b>OpenAI:</b> <a href="https://platform.openai.com/settings/organization/limits" style="color:#00e5ff">platform.openai.com → Settings → Limits</a></li>
-</ul>
-<div class="good">✅ This is your #1 guardrail. The API literally stops working when you hit the cap. No surprises.</div>
-
-<h3>2. Use Sonnet as your default model</h3>
-<p>Set Sonnet (not Opus) as your default so you're not accidentally burning premium tokens on "hey what time is it":</p>
-<p>In your OpenClaw config:</p>
-<code>"primary": "anthropic/claude-sonnet-4-20250514"</code>
-
-<h3>3. Enable prompt caching</h3>
-<p>This caches the system prompt and context so you're not paying full price every message. Saves 50-90% on input tokens.</p>
-
-<h3>4. Enable compaction</h3>
-<p>Auto-summarizes old conversation so context doesn't grow forever:</p>
-<code>"compaction": { "mode": "safeguard" }</code>
-
-<h3>5. Start fresh conversations regularly</h3>
-<p>Use <code>/new</code> to start a new session when you switch topics. A 5-message conversation costs a fraction of a 100-message one.</p>
-
-<h3>6. Monitor your spending</h3>
-<p>Check your API dashboard regularly. Both Anthropic and OpenAI show daily/weekly spend graphs.</p>
-</div>
-
-<!-- ============================================ -->
-<div class="section">
-<div class="section-label">🎯 The Bottom Line</div>
-
 <table>
-<tr><th>Budget</th><th>Model</th><th>Messages/Day</th><th>Vibe</th></tr>
-<tr class="tier-free"><td><b>$0</b></td><td>Ollama (local)</td><td>Unlimited</td><td>Free but limited brainpower</td></tr>
-<tr class="tier-budget"><td><b>$50/mo</b></td><td>Sonnet</td><td>50-130</td><td>Solid daily driver</td></tr>
-<tr class="tier-budget"><td><b>$100/mo</b></td><td>Sonnet</td><td>100-270</td><td>Comfortable all-day use</td></tr>
-<tr class="tier-mid"><td><b>$100/mo</b></td><td>Sonnet + Opus mix</td><td>80-150</td><td>Best of both worlds</td></tr>
-<tr class="tier-premium"><td><b>$100/mo</b></td><td>Opus only</td><td>15-65</td><td>Premium brain, limited volume</td></tr>
+<tr><th>Habit</th><th>Why it's expensive</th><th>Fix</th></tr>
+<tr>
+<td><b>Marathon conversations</b></td>
+<td>Every message resends the ENTIRE chat history. Message #100 costs 10x more than message #5.</td>
+<td>Type <code>/new</code> when switching topics. Fresh start = cheap.</td>
+</tr>
+<tr>
+<td><b>Pasting huge text blocks</b></td>
+<td>All that text gets processed and remembered for the whole chat.</td>
+<td>Save to a file, tell the bot to read it.</td>
+</tr>
+<tr>
+<td><b>Re-explaining yourself</b></td>
+<td>Without memory files, the bot forgets you every session.</td>
+<td>Set up USER.md — bot reads it automatically. <a href="url-first-run.html" style="color:#00e5ff">See First Run guide</a>.</td>
+</tr>
+<tr>
+<td><b>Using Opus for everything</b></td>
+<td>5x the cost of Sonnet. Like driving a Ferrari to get milk.</td>
+<td>Use Sonnet as default. Switch to Opus only for hard problems.</td>
+</tr>
 </table>
-
-<div class="good">💡 <b>Recommendation for $100/month:</b> Start with Sonnet as your default. Set a $50 spend cap per two-week period on Anthropic. Use it for a week and check your spend. You'll probably find Sonnet is more than enough for daily use, and you can upgrade to the mixed strategy once you know your usage patterns.</div>
 </div>
 
 <!-- ============================================ -->
+<h2>🛡️ How to Never Get a Surprise Bill</h2>
+
+<div class="section">
+<ol>
+<li><b>Set a hard spending cap</b> on <a href="https://console.anthropic.com/settings/limits" style="color:#00e5ff">console.anthropic.com/settings/limits</a>. The API literally stops working when you hit it. No surprises. Ever.</li>
+<li><b>Check your spend weekly</b> at <a href="https://console.anthropic.com/settings/billing" style="color:#00e5ff">console.anthropic.com/settings/billing</a></li>
+<li><b>Use Sonnet as your default model</b> — it's the best value</li>
+<li><b>Set up memory files</b> — saves you from repeating yourself (and paying for it)</li>
+</ol>
+</div>
+
+<!-- ============================================ -->
+<h2>🔑 APIs — What They Are and Do You Need Them?</h2>
+
+<div class="section">
+<p><b>What's an API?</b> It's a key that lets your bot connect to a service. Like a password that unlocks a specific ability. Some are free, some cost money. Here's every API you might need and what it does:</p>
+
+<div class="api-card">
+<h4>🧠 AI Brain (LLM Provider) <span class="api-tag tag-required">REQUIRED — pick one</span></h4>
+<p><b>What it does:</b> This is the actual brain — what makes your bot smart. Without this, it's a brick.</p>
+<p><b>Options:</b></p>
+<ul>
+<li><b>Anthropic (Claude)</b> — Best for OpenClaw. Sonnet = great value, Opus = big brain. <span class="api-tag tag-paid">$3-15/MTok</span></li>
+<li><b>OpenAI (GPT-4o)</b> — Also works. Similar pricing. <span class="api-tag tag-paid">$2.50-10/MTok</span></li>
+<li><b>Ollama (Local)</b> — Free but dumber and slower. Runs on your hardware. <span class="api-tag tag-free">FREE</span></li>
+<li><b>xAI (Grok)</b> — Free tier available for X/Twitter users. <span class="api-tag tag-free">FREE tier</span></li>
+</ul>
+<p><b>You need this for:</b> Everything. This IS the bot.</p>
+</div>
+
+<div class="api-card">
+<h4>🌐 Web Search (Brave) <span class="api-tag tag-optional">OPTIONAL</span></h4>
+<p><b>What it does:</b> Lets your bot search the internet for current information.</p>
+<p><b>Cost:</b> Free tier = 2,000 searches/month. Paid = $5/mo for more. <span class="api-tag tag-free">FREE tier available</span></p>
+<p><b>Get it at:</b> <a href="https://brave.com/search/api/" style="color:#00e5ff">brave.com/search/api</a></p>
+<p><b>You need this for:</b> "What's happening with X?" / current events / looking things up. Without it, the bot can still fetch specific URLs but can't search Google-style.</p>
+</div>
+
+<div class="api-card">
+<h4>💬 Telegram Bot <span class="api-tag tag-optional">OPTIONAL</span></h4>
+<p><b>What it does:</b> Lets you talk to your bot from your phone via Telegram instead of only the web dashboard.</p>
+<p><b>Cost:</b> <span class="api-tag tag-free">FREE forever</span></p>
+<p><b>Get it at:</b> Message @BotFather on Telegram → <code>/newbot</code></p>
+<p><b>You need this for:</b> Mobile access, getting notifications/reminders on your phone. Highly recommended.</p>
+</div>
+
+<div class="api-card">
+<h4>🗺️ Google Places <span class="api-tag tag-optional">OPTIONAL</span></h4>
+<p><b>What it does:</b> Lets your bot search for restaurants, stores, services near you.</p>
+<p><b>Cost:</b> $200 free credit/month from Google (more than enough). <span class="api-tag tag-free">FREE tier available</span></p>
+<p><b>Get it at:</b> <a href="https://console.cloud.google.com/" style="color:#00e5ff">Google Cloud Console</a></p>
+<p><b>You need this for:</b> "Find me a good pizza place nearby" / local business lookups.</p>
+</div>
+
+<div class="api-card">
+<h4>📧 Google Workspace (Gmail, Calendar, Drive) <span class="api-tag tag-optional">OPTIONAL</span></h4>
+<p><b>What it does:</b> Lets your bot read/send emails, check your calendar, manage Google Drive files.</p>
+<p><b>Cost:</b> <span class="api-tag tag-free">FREE</span> (uses your Google account credentials)</p>
+<p><b>You need this for:</b> "What's on my calendar today?" / "Send an email to..." / "Save this to Drive."</p>
+</div>
+
+<div class="api-card">
+<h4>🐙 GitHub <span class="api-tag tag-optional">OPTIONAL</span></h4>
+<p><b>What it does:</b> Lets your bot create repos, manage code, deploy websites (GitHub Pages).</p>
+<p><b>Cost:</b> <span class="api-tag tag-free">FREE</span></p>
+<p><b>Get it at:</b> GitHub Settings → Developer Settings → Personal Access Tokens</p>
+<p><b>You need this for:</b> Coding projects, hosting free websites, automation.</p>
+</div>
+
+<div class="api-card">
+<h4>🎵 Spotify <span class="api-tag tag-optional">OPTIONAL</span></h4>
+<p><b>What it does:</b> Lets your bot control music playback, search songs, manage playlists.</p>
+<p><b>Cost:</b> <span class="api-tag tag-free">FREE</span> (needs Spotify account)</p>
+<p><b>You need this for:</b> "Play some jazz" / "Add this song to my playlist."</p>
+</div>
+
+<div class="api-card">
+<h4>🏠 Smart Home (Hue, etc.) <span class="api-tag tag-optional">OPTIONAL</span></h4>
+<p><b>What it does:</b> Lets your bot control smart lights, scenes, switches.</p>
+<p><b>Cost:</b> <span class="api-tag tag-free">FREE</span> (needs Hue Bridge or similar on your network)</p>
+<p><b>You need this for:</b> "Turn off the living room lights" / "Set the bedroom to warm."</p>
+</div>
+
+<div class="api-card">
+<h4>🖼️ Image Generation (Gemini) <span class="api-tag tag-optional">OPTIONAL</span></h4>
+<p><b>What it does:</b> Lets your bot create and edit images from text descriptions.</p>
+<p><b>Cost:</b> Free tier available, paid for heavy use. <span class="api-tag tag-free">FREE tier available</span></p>
+<p><b>Get it at:</b> <a href="https://aistudio.google.com/apikey" style="color:#00e5ff">Google AI Studio</a></p>
+<p><b>You need this for:</b> "Draw me a logo" / "Generate a picture of..."</p>
+</div>
+
+<div class="good">💡 <b>Start with just the AI Brain (Anthropic) and Telegram.</b> That's all you need. Add other APIs later when you actually want those features. Don't buy what you don't need yet.</div>
+</div>
+
+<!-- ============================================ -->
+<div class="section">
+<div class="section-label">🎯 Quick Start Checklist</div>
+<table>
+<tr><th>What</th><th>Cost</th><th>Need it now?</th></tr>
+<tr><td>Anthropic API (the brain)</td><td class="price">$25-100/mo</td><td><b style="color:#ff6b6b;">YES</b></td></tr>
+<tr><td>Telegram bot token</td><td class="price">Free</td><td><b style="color:#ff6b6b;">YES</b></td></tr>
+<tr><td>Brave Search API</td><td class="price">Free tier</td><td>Nice to have</td></tr>
+<tr><td>Everything else</td><td class="price">Free</td><td>Add when you need it</td></tr>
+</table>
+</div>
+
 <hr>
-<p class="footer">Prices are approximate and based on current Anthropic/OpenAI pricing as of early 2026. Actual costs depend on conversation length, caching, and usage patterns. Always check your provider dashboard for real spend.<br><br>Last updated: Feb 15, 2026 — Paddy 🐘</p>
+
+<p style="text-align:center;">
+<a href="url-full-setup.html" style="color:#00e5ff; margin: 0 15px;">🚀 Full Setup Guide</a>
+<a href="url-first-run.html" style="color:#ff6b6b; margin: 0 15px;">🎯 First Run Guide</a>
+<a href="url.html" style="color:#ffaa00; margin: 0 15px;">🔧 Troubleshooting</a>
+</p>
+
+<hr>
+<p class="footer">Prices approximate as of early 2026. Always check your provider dashboard for real spend.<br>Last updated: Feb 15, 2026 — Paddy 🐘</p>
 
 </body>
 </html>
