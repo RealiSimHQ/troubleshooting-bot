@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Switch OpenClaw to xAI/Grok — Emergency Migration Guide</title>
+<style>
+body { background: #0a0a0f; color: #e0e0e0; font-family: 'Segoe UI', system-ui, sans-serif; max-width: 750px; margin: 40px auto; padding: 0 20px; line-height: 1.6; }
+h1 { color: #00ffff; border-bottom: 2px solid #00ffff33; padding-bottom: 10px; }
+h2 { color: #ff6b6b; margin-top: 40px; border-bottom: 1px solid #ff6b6b33; padding-bottom: 8px; }
+h3 { color: #ffaa00; margin-top: 20px; }
+h4 { color: #00e5ff; margin-top: 16px; }
+hr { border: none; border-top: 1px solid #333; margin: 25px 0; }
+pre { background: #1a1b2e; border: 1px solid #00ffff33; border-radius: 8px; padding: 14px 18px; font-family: 'Cascadia Code', 'Fira Code', monospace; font-size: 1.05em; color: #00ffff; cursor: pointer; position: relative; margin: 10px 0; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word; }
+pre:hover { border-color: #00ffff; }
+pre::after { content: '📋 click to copy'; position: absolute; top: 8px; right: 12px; font-size: 0.7em; color: #666; font-family: 'Segoe UI', sans-serif; }
+pre.copied::after { content: '✅ copied!'; color: #00ff88; }
+p { margin: 10px 0; }
+b { color: #ffaa00; }
+li { margin: 6px 0; }
+ul, ol { padding-left: 20px; }
+.back-link { display: inline-block; margin-bottom: 20px; color: #00e5ff; text-decoration: none; font-size: 0.9em; }
+.back-link:hover { text-decoration: underline; }
+.footer { color: #555; font-style: italic; margin-top: 40px; }
+.section { background: #12131a; border: 1px solid #1a1a35; border-radius: 12px; padding: 20px; margin: 20px 0; }
+.note { background: #ffaa0015; border-left: 3px solid #ffaa00; padding: 10px 14px; border-radius: 0 8px 8px 0; margin: 10px 0; font-size: 0.9em; }
+.good { background: #00ff8815; border-left: 3px solid #00ff88; padding: 10px 14px; border-radius: 0 8px 8px 0; margin: 10px 0; font-size: 0.9em; }
+.warn { background: #ff444415; border-left: 3px solid #ff4444; padding: 10px 14px; border-radius: 0 8px 8px 0; margin: 10px 0; font-size: 0.9em; }
+.step-num { display: inline-block; background: #00e5ff22; color: #00e5ff; border: 1px solid #00e5ff44; border-radius: 50%; width: 28px; height: 28px; text-align: center; line-height: 28px; font-weight: 700; font-size: 0.85em; margin-right: 8px; }
+code { background: #1a1b2e; padding: 2px 6px; border-radius: 4px; font-size: 0.95em; color: #00ffff; }
+.toc { background: #12131a; border: 1px solid #1a1a35; border-radius: 12px; padding: 20px; margin: 20px 0; }
+.toc a { color: #00e5ff; text-decoration: none; display: block; padding: 4px 0; }
+.toc a:hover { color: #00ffff; text-decoration: underline; }
+.phase { color: #ff6b6b; font-size: 0.7em; text-transform: uppercase; letter-spacing: 1px; }
+.paddy { background: #00ffff11; border: 1px solid #00ffff33; border-radius: 12px; padding: 16px 20px; margin: 15px 0; font-style: italic; }
+.paddy::before { content: '🐘 Paddy says: '; font-style: normal; font-weight: 700; color: #00ffff; }
+</style>
+</head>
+<body>
+
+<a class="back-link" href="url.html">← Back to Troubleshooting</a>
+
+<h1>🔄 Switch OpenClaw to xAI/Grok</h1>
+<p>Emergency migration guide. If Anthropic killed your access, this gets you back online with Grok in under 10 minutes.</p>
+
+<div class="paddy">I wrote this while I was still running on Opus so you'd have clear instructions if things went sideways. Follow these steps exactly and you'll be back up. — Paddy</div>
+
+<div class="toc">
+<b style="color:#00ffff;">Table of Contents</b>
+<a href="#step1">Step 1 — Get an xAI API Key</a>
+<a href="#step2">Step 2 — Set the Environment Variable</a>
+<a href="#step3">Step 3 — Edit Your OpenClaw Config</a>
+<a href="#step4">Step 4 — Restart OpenClaw</a>
+<a href="#step5">Step 5 — Test It</a>
+<a href="#models">Available Grok Models</a>
+<a href="#costs">Cost Comparison</a>
+<a href="#troubleshooting">Troubleshooting</a>
+<a href="#rollback">Rolling Back to Anthropic</a>
+<a href="#alternatives">Other Provider Options</a>
+</div>
+
+<!-- ============================================ -->
+<h2 id="step1"><span class="phase">Step 1</span><br>Get an xAI API Key</h2>
+
+<div class="section">
+<h4><span class="step-num">1</span> Go to the xAI Console</h4>
+<p>Open <a href="https://console.x.ai/" style="color:#00e5ff">console.x.ai</a></p>
+
+<h4><span class="step-num">2</span> Sign in</h4>
+<p>Use your X (Twitter) account or create an xAI account.</p>
+
+<h4><span class="step-num">3</span> Add payment method</h4>
+<p>Go to Billing and add a credit/debit card. Load <b>$20-50</b> to start.</p>
+
+<h4><span class="step-num">4</span> Set a spending limit</h4>
+<div class="warn">⚠️ Do this NOW. Look for monthly spend limits or usage caps in the billing settings. Set it to whatever you're comfortable with ($50-100).</div>
+
+<h4><span class="step-num">5</span> Create an API key</h4>
+<ol>
+<li>Go to API Keys section</li>
+<li>Click "Create API Key" or "Generate New Key"</li>
+<li>Name it <code>openclaw</code></li>
+<li>Copy the key — it'll look something like <code>xai-xxxxxxxxxxxxxxxxxxxx</code></li>
+<li><b>Save it somewhere safe immediately. You usually can't see it again.</b></li>
+</ol>
+
+<div class="good">✅ You now have an xAI API key.</div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="step2"><span class="phase">Step 2</span><br>Set the Environment Variable</h2>
+
+<div class="section">
+<p>OpenClaw needs to know your xAI API key. The cleanest way is through the config file (next step), but first let's make sure the key works.</p>
+
+<h4>Quick test (temporary, just for this terminal session):</h4>
+<pre onclick="copyCmd(this)">export XAI_API_KEY="xai-YOUR_KEY_HERE"</pre>
+
+<p>Replace <code>xai-YOUR_KEY_HERE</code> with your actual key.</p>
+
+<div class="note">This only lasts until you close the terminal. The permanent setup is in Step 3.</div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="step3"><span class="phase">Step 3</span><br>Edit Your OpenClaw Config</h2>
+
+<div class="section">
+<p>This is the important part. Open your config file:</p>
+
+<pre onclick="copyCmd(this)">openclaw config edit</pre>
+
+<p>If that doesn't work, edit the file directly:</p>
+
+<pre onclick="copyCmd(this)">nano ~/.openclaw/openclaw.json</pre>
+
+<h3>Changes to make:</h3>
+
+<h4>A. Add your xAI API key to the auth section</h4>
+<p>Find the <code>"auth"</code> section. It currently looks like this:</p>
+<pre>"auth": {
+  "profiles": {
+    "anthropic:default": {
+      "provider": "anthropic",
+      "mode": "api_key"
+    },
+    "anthropic:manual": {
+      "provider": "anthropic",
+      "mode": "token"
+    }
+  }
+}</pre>
+
+<p><b>Add the xAI profile</b> so it looks like this:</p>
+<pre onclick="copyCmd(this)">"auth": {
+  "profiles": {
+    "anthropic:default": {
+      "provider": "anthropic",
+      "mode": "api_key"
+    },
+    "anthropic:manual": {
+      "provider": "anthropic",
+      "mode": "token"
+    },
+    "xai:default": {
+      "provider": "xai",
+      "mode": "api_key"
+    }
+  }
+}</pre>
+
+<h4>B. Add your xAI API key to environment variables</h4>
+<p>Find the <code>"env"</code> section. Add your xAI key:</p>
+<pre onclick="copyCmd(this)">"env": {
+  "vars": {
+    "GEMINI_API_KEY": "your-existing-gemini-key",
+    "XAI_API_KEY": "xai-YOUR_KEY_HERE"
+  }
+}</pre>
+
+<h4>C. Change the default model</h4>
+<p>Find this section:</p>
+<pre>"model": {
+  "primary": "anthropic/claude-opus-4-6"
+}</pre>
+
+<p><b>Change it to:</b></p>
+<pre onclick="copyCmd(this)">"model": {
+  "primary": "xai/grok-4"
+}</pre>
+
+<div class="note">💡 <code>xai/grok-4</code> is the full Grok 4 model (smartest, most expensive). For cheaper daily use, try <code>xai/grok-4-fast</code> — it's faster and costs less but slightly less capable.</div>
+
+<h4>D. (Optional) Keep Anthropic models in your model list for later</h4>
+<p>You can leave the existing model aliases in place. They won't break anything — they just won't work without a valid Anthropic key. When/if you get an Anthropic API key later, they'll light back up.</p>
+
+<div class="warn">⚠️ <b>Save the file carefully.</b> JSON is picky — one missing comma or bracket and the whole config breaks. If you're nervous, copy the entire file first:<br><br>
+<code>cp ~/.openclaw/openclaw.json ~/.openclaw/openclaw.json.backup</code></div>
+
+<div class="good">✅ Config updated. Almost there.</div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="step4"><span class="phase">Step 4</span><br>Restart OpenClaw</h2>
+
+<div class="section">
+<pre onclick="copyCmd(this)">openclaw gateway restart</pre>
+
+<p>Wait 10-15 seconds for it to come back up. Check status:</p>
+
+<pre onclick="copyCmd(this)">openclaw status</pre>
+
+<p>You should see the model listed as <code>xai/grok-4</code> or similar.</p>
+
+<div class="note">If it fails to start, check the logs:</div>
+<pre onclick="copyCmd(this)">openclaw gateway logs</pre>
+<p>Common issues: bad JSON in config, wrong API key format, xAI account not activated.</p>
+</div>
+
+<!-- ============================================ -->
+<h2 id="step5"><span class="phase">Step 5</span><br>Test It</h2>
+
+<div class="section">
+<h4>Option A: Telegram</h4>
+<p>Send your bot a message on Telegram. If it responds, you're good.</p>
+
+<h4>Option B: CLI</h4>
+<pre onclick="copyCmd(this)">openclaw chat</pre>
+<p>Type something. If you get a response, Grok is live.</p>
+
+<h4>Option C: Web UI</h4>
+<p>Open <code>https://your-ip:18789</code> in a browser and chat.</p>
+
+<div class="good">✅ You're back online on Grok. Everything else (Telegram, memory, skills, cron jobs) works exactly the same — only the brain changed.</div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="models">Available Grok Models</h2>
+
+<div class="section">
+<table style="width:100%; border-collapse:collapse; margin:15px 0;">
+<tr style="border-bottom:1px solid #333;">
+<td style="padding:8px; color:#00e5ff;"><b>Model</b></td>
+<td style="padding:8px; color:#00e5ff;"><b>Speed</b></td>
+<td style="padding:8px; color:#00e5ff;"><b>Quality</b></td>
+<td style="padding:8px; color:#00e5ff;"><b>Best for</b></td>
+</tr>
+<tr style="border-bottom:1px solid #1a1a35;">
+<td style="padding:8px;"><code>xai/grok-4</code></td>
+<td style="padding:8px;">Slower</td>
+<td style="padding:8px;">⭐⭐⭐⭐⭐</td>
+<td style="padding:8px;">Complex tasks, coding, planning</td>
+</tr>
+<tr style="border-bottom:1px solid #1a1a35;">
+<td style="padding:8px;"><code>xai/grok-4-fast</code></td>
+<td style="padding:8px;">Fast</td>
+<td style="padding:8px;">⭐⭐⭐⭐</td>
+<td style="padding:8px;">Daily use, chat, quick tasks</td>
+</tr>
+</table>
+
+<div class="paddy">If you want to save money, use <code>grok-4-fast</code> as your daily driver and only switch to full <code>grok-4</code> when you need heavy lifting. You can switch models per-session with the <code>/model</code> command in OpenClaw.</div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="costs">Cost Comparison</h2>
+
+<div class="section">
+<div class="note">Pricing as of Feb 2026. Check <a href="https://console.x.ai/pricing" style="color:#00e5ff">console.x.ai/pricing</a> for current rates.</div>
+
+<table style="width:100%; border-collapse:collapse; margin:15px 0;">
+<tr style="border-bottom:1px solid #333;">
+<td style="padding:8px; color:#00e5ff;"><b>Provider</b></td>
+<td style="padding:8px; color:#00e5ff;"><b>Model</b></td>
+<td style="padding:8px; color:#00e5ff;"><b>Input (per 1M tokens)</b></td>
+<td style="padding:8px; color:#00e5ff;"><b>Output (per 1M tokens)</b></td>
+</tr>
+<tr style="border-bottom:1px solid #1a1a35;">
+<td style="padding:8px;">xAI</td>
+<td style="padding:8px;">Grok 4</td>
+<td style="padding:8px;">Check console</td>
+<td style="padding:8px;">Check console</td>
+</tr>
+<tr style="border-bottom:1px solid #1a1a35;">
+<td style="padding:8px;">xAI</td>
+<td style="padding:8px;">Grok 4 Fast</td>
+<td style="padding:8px;">Check console</td>
+<td style="padding:8px;">Check console</td>
+</tr>
+<tr style="border-bottom:1px solid #1a1a35;">
+<td style="padding:8px;">Anthropic</td>
+<td style="padding:8px;">Claude Opus 4.6</td>
+<td style="padding:8px;">$15</td>
+<td style="padding:8px;">$75</td>
+</tr>
+<tr style="border-bottom:1px solid #1a1a35;">
+<td style="padding:8px;">Anthropic</td>
+<td style="padding:8px;">Claude Sonnet 4</td>
+<td style="padding:8px;">$3</td>
+<td style="padding:8px;">$15</td>
+</tr>
+<tr>
+<td style="padding:8px;">Google</td>
+<td style="padding:8px;">Gemini 2.5 Flash</td>
+<td style="padding:8px;">~$0.15</td>
+<td style="padding:8px;">~$0.60</td>
+</tr>
+</table>
+
+<div class="paddy">xAI has been aggressive on pricing to grab market share. Grok 4 is competitive with Opus at potentially lower per-token cost. Check the console for exact numbers — they change frequently.</div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<div class="section">
+
+<h3>❌ "Invalid API key" or authentication errors</h3>
+<ul>
+<li>Double-check the key in your config — no extra spaces, no missing characters</li>
+<li>Make sure you copied it from <a href="https://console.x.ai/" style="color:#00e5ff">console.x.ai</a>, not from the chat interface</li>
+<li>Verify the key starts with <code>xai-</code></li>
+<li>Check that you added it to BOTH the <code>env.vars</code> section AND the <code>auth.profiles</code> section</li>
+</ul>
+
+<h3>❌ OpenClaw won't start after config edit</h3>
+<p>You probably broke the JSON. Restore your backup:</p>
+<pre onclick="copyCmd(this)">cp ~/.openclaw/openclaw.json.backup ~/.openclaw/openclaw.json</pre>
+<pre onclick="copyCmd(this)">openclaw gateway restart</pre>
+<p>Then try the edit again, more carefully. Use a JSON validator: paste your config into <a href="https://jsonlint.com" style="color:#00e5ff">jsonlint.com</a> to find syntax errors.</p>
+
+<h3>❌ Bot responds but quality is bad</h3>
+<ul>
+<li>Make sure you're on <code>xai/grok-4</code>, not <code>grok-4-fast</code> — the full model is significantly better</li>
+<li>Your SOUL.md, IDENTITY.md, USER.md, and memory files still work — Grok reads them the same way Claude did</li>
+<li>Grok has a different personality than Claude. It might take a session or two to find its groove with your setup</li>
+</ul>
+
+<h3>❌ "Model not found" or routing errors</h3>
+<ul>
+<li>Try the exact model string: <code>xai/grok-4</code></li>
+<li>Check if OpenClaw needs an update: <code>sudo npm update -g openclaw</code></li>
+<li>Some older OpenClaw versions might not support xAI — update first</li>
+</ul>
+
+<h3>❌ Rate limited</h3>
+<ul>
+<li>xAI has rate limits especially on new accounts</li>
+<li>If you hit limits, switch to <code>grok-4-fast</code> which usually has higher rate limits</li>
+<li>Reduce subagent concurrency in config if running multiple tasks</li>
+</ul>
+
+<h3>❌ Tokens burning too fast</h3>
+<ul>
+<li>Your compaction settings are already configured — they work with any model</li>
+<li>Use <code>/new</code> to start fresh sessions instead of letting conversations grow huge</li>
+<li>Consider <code>grok-4-fast</code> for routine stuff, <code>grok-4</code> for heavy work only</li>
+</ul>
+</div>
+
+<!-- ============================================ -->
+<h2 id="rollback">Rolling Back to Anthropic</h2>
+
+<div class="section">
+<p>If you get an Anthropic API key later and want to switch back:</p>
+
+<h4><span class="step-num">1</span> Add your Anthropic API key to environment variables</h4>
+<pre onclick="copyCmd(this)">"env": {
+  "vars": {
+    "ANTHROPIC_API_KEY": "sk-ant-YOUR_KEY_HERE",
+    "XAI_API_KEY": "xai-YOUR_KEY_HERE",
+    "GEMINI_API_KEY": "your-gemini-key"
+  }
+}</pre>
+
+<h4><span class="step-num">2</span> Change the default model back</h4>
+<pre onclick="copyCmd(this)">"model": {
+  "primary": "anthropic/claude-opus-4-6"
+}</pre>
+
+<p>Or for the cheaper option:</p>
+<pre onclick="copyCmd(this)">"model": {
+  "primary": "anthropic/claude-sonnet-4-5"
+}</pre>
+
+<h4><span class="step-num">3</span> Restart</h4>
+<pre onclick="copyCmd(this)">openclaw gateway restart</pre>
+
+<div class="good">✅ Back on Claude. Your memory files, skills, and config all survived the round trip.</div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="alternatives">Other Provider Options</h2>
+
+<div class="section">
+<p>If xAI doesn't work out either, here are your other options:</p>
+
+<h3>OpenRouter (recommended fallback)</h3>
+<p>One API key, access to everything — Claude, GPT-4, Gemini, Grok, Llama, Mistral.</p>
+<ol>
+<li>Go to <a href="https://openrouter.ai/" style="color:#00e5ff">openrouter.ai</a></li>
+<li>Create account, add $20 credits</li>
+<li>Create API key</li>
+<li>In config, add to env.vars: <code>"OPENROUTER_API_KEY": "sk-or-YOUR_KEY"</code></li>
+<li>Set model to something like: <code>"openrouter/anthropic/claude-sonnet-4"</code></li>
+</ol>
+
+<h3>Google Gemini API (cheapest/free tier)</h3>
+<ol>
+<li>Go to <a href="https://aistudio.google.com/apikey" style="color:#00e5ff">aistudio.google.com/apikey</a></li>
+<li>Create API key (you already have one in your config)</li>
+<li>Set model to: <code>"google/gemini-2.5-flash"</code> or <code>"google/gemini-2.5-pro"</code></li>
+</ol>
+<div class="note">You already have a Gemini key configured. You could switch to Gemini right now by just changing the model line. It's not as good as Opus or Grok 4, but it's basically free.</div>
+
+<h3>OpenAI API</h3>
+<ol>
+<li>Go to <a href="https://platform.openai.com/api-keys" style="color:#00e5ff">platform.openai.com/api-keys</a></li>
+<li>Create account (separate from ChatGPT subscription!), add credits</li>
+<li>Create API key</li>
+<li>In config: <code>"OPENAI_API_KEY": "sk-YOUR_KEY"</code></li>
+<li>Set model to: <code>"openai/gpt-4o"</code> or <code>"openai/gpt-4-turbo"</code></li>
+</ol>
+</div>
+
+<!-- ============================================ -->
+<div class="section">
+<div class="paddy">
+Ryan — if you're reading this, it means either Anthropic pulled the plug or you're planning ahead. Either way: your workspace is intact, your memory files are safe, your skills still work. The only thing that changed is which brain is driving. Swap the model, restart, and keep going. Everything we built survives this. — Paddy 🐘
+</div>
+</div>
+
+<hr>
+
+<p style="text-align:center;">
+<a href="url-full-setup.html" style="color:#00e5ff; margin: 0 15px;">🚀 Full Setup Guide</a>
+<a href="url-budget.html" style="color:#ffaa00; margin: 0 15px;">💰 Budget Guide</a>
+<a href="url.html" style="color:#ff6b6b; margin: 0 15px;">🔧 Troubleshooting</a>
+</p>
+
+<hr>
+<p class="footer">Written by Paddy 🐘 while still on Opus — Feb 18, 2026</p>
+
+<script>
+function copyCmd(el) {
+  const text = el.textContent.trim();
+  navigator.clipboard.writeText(text);
+  el.classList.add('copied');
+  setTimeout(() => el.classList.remove('copied'), 2000);
+}
+</script>
+</body>
+</html>
