@@ -162,7 +162,28 @@ code { background: #1a1b2e; padding: 2px 6px; border-radius: 4px; font-size: 0.9
 If you signed up for <b>claude.ai</b> and are paying <b>$20/month (Pro)</b> or <b>$100/month (Max)</b> — that's a chat subscription. It does NOT give you an API key. OpenClaw cannot use it.<br><br>
 You need the <b>Anthropic API</b> (pay-per-use) OR an alternative provider below. If you accidentally subscribed to Claude Pro/Max, you can cancel at <a href="https://claude.ai/settings/billing" style="color:#00e5ff">claude.ai/settings/billing</a> — it's separate from the API.</div>
 
-<h3>Option A: Anthropic API (Recommended)</h3>
+<div class="provider-buttons" style="display:flex; flex-wrap:wrap; gap:10px; margin:20px 0;">
+<button onclick="toggleProvider('anthropic')" class="provider-btn" style="flex:1; min-width:200px; padding:14px 18px; background:#1a1b2e; border:2px solid #00e5ff44; border-radius:10px; color:#e0e0e0; cursor:pointer; text-align:left; font-size:0.95em; font-family:inherit; transition:all 0.2s;">
+<span style="color:#00e5ff; font-weight:700;">⭐ Anthropic API</span><br>
+<span style="color:#888; font-size:0.85em;">Recommended · $5-80/mo · Best quality</span>
+</button>
+<button onclick="toggleProvider('openrouter')" class="provider-btn" style="flex:1; min-width:200px; padding:14px 18px; background:#1a1b2e; border:2px solid #00e5ff44; border-radius:10px; color:#e0e0e0; cursor:pointer; text-align:left; font-size:0.95em; font-family:inherit; transition:all 0.2s;">
+<span style="color:#00e5ff; font-weight:700;">🔀 OpenRouter</span><br>
+<span style="color:#888; font-size:0.85em;">Multi-model · $5-80/mo · Flexibility</span>
+</button>
+<button onclick="toggleProvider('ollama')" class="provider-btn" style="flex:1; min-width:200px; padding:14px 18px; background:#1a1b2e; border:2px solid #00e5ff44; border-radius:10px; color:#e0e0e0; cursor:pointer; text-align:left; font-size:0.95em; font-family:inherit; transition:all 0.2s;">
+<span style="color:#00e5ff; font-weight:700;">🖥️ Ollama</span><br>
+<span style="color:#888; font-size:0.85em;">Free · Local · Privacy-first</span>
+</button>
+<button onclick="toggleProvider('gemini')" class="provider-btn" style="flex:1; min-width:200px; padding:14px 18px; background:#1a1b2e; border:2px solid #00e5ff44; border-radius:10px; color:#e0e0e0; cursor:pointer; text-align:left; font-size:0.95em; font-family:inherit; transition:all 0.2s;">
+<span style="color:#00e5ff; font-weight:700;">💎 Google Gemini</span><br>
+<span style="color:#888; font-size:0.85em;">Free tier · $0-20/mo · Budget-friendly</span>
+</button>
+</div>
+
+<!-- Anthropic -->
+<div id="provider-anthropic" class="provider-content" style="display:none;">
+<h3>Anthropic API (Recommended)</h3>
 <p>Pay-per-use. You only pay for what your bot actually uses. Best models (Claude Sonnet, Opus).</p>
 
 <h4><span class="step-num">1</span> Sign up for the API</h4>
@@ -198,10 +219,11 @@ You need the <b>Anthropic API</b> (pay-per-use) OR an alternative provider below
 <div class="note">💰 <b>Cost estimate:</b> Casual use = $5-15/month. Heavy daily use = $30-80/month. With the spending cap, you control the max.</div>
 
 <div class="good">✅ You now have an API key with a spending cap. Your wallet is protected.</div>
+</div>
 
-<hr style="border-color: #1a1a35; margin: 30px 0;">
-
-<h3>Option B: OpenRouter (Multi-model access)</h3>
+<!-- OpenRouter -->
+<div id="provider-openrouter" class="provider-content" style="display:none;">
+<h3>OpenRouter (Multi-model access)</h3>
 <p>A single API key that gives you access to Claude, GPT-4, Gemini, Llama, Mistral, and dozens more. Good if you want to experiment or use cheaper models.</p>
 
 <h4><span class="step-num">1</span> Sign up</h4>
@@ -225,9 +247,12 @@ You need the <b>Anthropic API</b> (pay-per-use) OR an alternative provider below
 
 <div class="note">💡 In the OpenClaw setup wizard, choose <b>"OpenRouter"</b> as your provider and use models like <code>anthropic/claude-sonnet-4</code> or <code>google/gemini-2.5-flash</code>. Prices vary per model — check <a href="https://openrouter.ai/models" style="color:#00e5ff">openrouter.ai/models</a> to compare.</div>
 
-<hr style="border-color: #1a1a35; margin: 30px 0;">
+<div class="good">✅ OpenRouter key ready. You can switch between dozens of models anytime.</div>
+</div>
 
-<h3>Option C: Ollama (Free — runs on your computer)</h3>
+<!-- Ollama -->
+<div id="provider-ollama" class="provider-content" style="display:none;">
+<h3>Ollama (Free — runs on your computer)</h3>
 <p>Run AI models locally on your own hardware. Completely free, completely private. No API costs ever. But you need decent hardware and the models aren't as smart as Claude/GPT-4.</p>
 
 <h4><span class="step-num">1</span> Install Ollama</h4>
@@ -245,9 +270,12 @@ You need the <b>Anthropic API</b> (pay-per-use) OR an alternative provider below
 
 <div class="warn">⚠️ <b>Hardware reality check:</b> Local models are significantly less capable than Claude Sonnet/Opus. They work great for simple tasks but may struggle with complex coding, long conversations, or nuanced instructions. Start here if budget is tight, upgrade to an API provider when you can.</div>
 
-<hr style="border-color: #1a1a35; margin: 30px 0;">
+<div class="good">✅ Ollama installed. Free AI running on your own machine.</div>
+</div>
 
-<h3>Option D: Google Gemini API (Generous free tier)</h3>
+<!-- Gemini -->
+<div id="provider-gemini" class="provider-content" style="display:none;">
+<h3>Google Gemini API (Generous free tier)</h3>
 <p>Google's AI models. The free tier is surprisingly generous for light use.</p>
 
 <h4><span class="step-num">1</span> Get an API key</h4>
@@ -260,43 +288,10 @@ You need the <b>Anthropic API</b> (pay-per-use) OR an alternative provider below
 
 <div class="note">💡 The free tier gives you 15 requests/minute on Gemini Flash and 2 requests/minute on Gemini Pro. Enough for casual use. Paid tier starts at very low per-token costs. In OpenClaw, use the Google/Gemini provider option with models like <code>google/gemini-2.5-flash</code>.</div>
 
-<hr style="border-color: #1a1a35; margin: 30px 0;">
+<div class="good">✅ Gemini key ready. Start free, upgrade if you need more.</div>
+</div>
 
-<h3>Which should I pick?</h3>
-<table style="width:100%; border-collapse:collapse; margin:15px 0;">
-<tr style="border-bottom:1px solid #333;">
-<td style="padding:8px; color:#00e5ff;"><b>Provider</b></td>
-<td style="padding:8px; color:#00e5ff;"><b>Cost</b></td>
-<td style="padding:8px; color:#00e5ff;"><b>Quality</b></td>
-<td style="padding:8px; color:#00e5ff;"><b>Best for</b></td>
-</tr>
-<tr style="border-bottom:1px solid #1a1a35;">
-<td style="padding:8px;">Anthropic API</td>
-<td style="padding:8px;">$5-80/mo</td>
-<td style="padding:8px;">⭐⭐⭐⭐⭐</td>
-<td style="padding:8px;">Best experience, serious use</td>
-</tr>
-<tr style="border-bottom:1px solid #1a1a35;">
-<td style="padding:8px;">OpenRouter</td>
-<td style="padding:8px;">$5-80/mo</td>
-<td style="padding:8px;">⭐⭐⭐⭐⭐</td>
-<td style="padding:8px;">Flexibility, model shopping</td>
-</tr>
-<tr style="border-bottom:1px solid #1a1a35;">
-<td style="padding:8px;">Ollama (local)</td>
-<td style="padding:8px;">Free</td>
-<td style="padding:8px;">⭐⭐⭐</td>
-<td style="padding:8px;">Zero budget, privacy</td>
-</tr>
-<tr>
-<td style="padding:8px;">Google Gemini</td>
-<td style="padding:8px;">Free-$20/mo</td>
-<td style="padding:8px;">⭐⭐⭐⭐</td>
-<td style="padding:8px;">Light use, budget-friendly</td>
-</tr>
-</table>
-
-<div class="good">✅ Pick one, get your API key, and move on to Phase 5. You can always switch later.</div>
+<div class="good" style="margin-top:20px;">✅ Pick a provider above, get your API key, and move on to Phase 5. You can always switch later.</div>
 </div>
 
 <!-- ============================================ -->
@@ -599,6 +594,32 @@ function copyCmd(el) {
   navigator.clipboard.writeText(text);
   el.classList.add('copied');
   setTimeout(() => el.classList.remove('copied'), 2000);
+}
+
+function toggleProvider(id) {
+  const all = document.querySelectorAll('.provider-content');
+  const btns = document.querySelectorAll('.provider-btn');
+  const target = document.getElementById('provider-' + id);
+  const isOpen = target.style.display !== 'none';
+
+  // Close all
+  all.forEach(el => el.style.display = 'none');
+  btns.forEach(btn => {
+    btn.style.borderColor = '#00e5ff44';
+    btn.style.background = '#1a1b2e';
+  });
+
+  // Toggle open if it was closed
+  if (!isOpen) {
+    target.style.display = 'block';
+    // Highlight the active button
+    const idx = ['anthropic','openrouter','ollama','gemini'].indexOf(id);
+    if (idx >= 0 && btns[idx]) {
+      btns[idx].style.borderColor = '#00e5ff';
+      btns[idx].style.background = '#00e5ff11';
+    }
+    target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
 }
 </script>
 </body>
